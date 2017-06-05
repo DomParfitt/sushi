@@ -7,10 +7,20 @@ public class CardButton extends Button {
 	
 	private static Image BACK;
 	private Image front;
+	private boolean isShowing;
 	
 	public CardButton() {
+		this.isShowing = true;
 		this.setPrefSize(125, 200);
-		this.setText("This is a JFX Button");
+		this.setText("FRONT");
+	}
+	
+	public boolean isShowing() {
+		return this.isShowing;
+	}
+	
+	public void setShowing() {
+		this.isShowing = !this.isShowing();
 	}
 
 }
