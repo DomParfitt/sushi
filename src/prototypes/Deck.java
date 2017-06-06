@@ -1,3 +1,4 @@
+package prototypes;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,14 +10,14 @@ public class Deck {
 	
 	public Deck() {
 		this.cards = new ArrayList<Card>();
-		
-		this.cards.add(new Card("Test1", "First test card"));
-		this.cards.add(new Card("Test2", "Second test card"));
-		this.cards.add(new Card("Test3", "Third test card"));
-		this.cards.add(new Card("Test4", "Fourth test card"));
-		this.cards.add(new Card("Test5", "Fifth test card"));
-		
-		//Put correct cards in deck
+//		
+//		this.cards.add(new Card("Test1", "First test card"));
+//		this.cards.add(new Card("Test2", "Second test card"));
+//		this.cards.add(new Card("Test3", "Third test card"));
+//		this.cards.add(new Card("Test4", "Fourth test card"));
+//		this.cards.add(new Card("Test5", "Fifth test card"));
+//		
+//		//Put correct cards in deck
 	}
 	
 	public Deck(int size) {

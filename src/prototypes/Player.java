@@ -1,3 +1,4 @@
+package prototypes;
 
 public class Player implements Comparable {
 
