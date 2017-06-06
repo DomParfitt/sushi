@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import cards.Card;
 
+//TODO: Implement various scoring methods to work for collection of Players
+
 /**
  * Class for holding various elements which contribute to the final score
  * 
