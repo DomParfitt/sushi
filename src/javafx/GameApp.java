@@ -91,9 +91,9 @@ public class GameApp extends Application {
 //		root.getChildren().add(handComp);
 		
 		Scene scene = new Scene(root, 500, 500);
+//		scene.getStylesheets().add("style.css");
 		
 		stage.setScene(scene);
-		
 		stage.show();
 	}
 
