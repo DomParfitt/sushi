@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cards.Card;
 
-public class Player implements Comparable {
+public class Player implements Comparable<Player> {
 
 	private static int NUMBEROFPLAYERS = 1;
 	
@@ -45,12 +45,22 @@ public class Player implements Comparable {
 		return this.score;
 	}
 	
+	public void updateScore(Score newScore) {
+		Score current = getScore();
+		Score updated = current.addScore(newScore);
+		this.score = updated;
+	}
+	
 	public ArrayList<Card> getHand() {
 		return this.hand;
 	}
 	
 	public ArrayList<Card> getPlayedCards() {
 		return this.playedCards;
+	}
+	
+	public void clearPlayedCards() {
+		this.playedCards = new ArrayList<Card>();
 	}
 	
 	public void showHand() {
@@ -76,7 +86,7 @@ public class Player implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object otherPlayer) {
-		return ((Integer) this.getNumber()).compareTo(((Player)otherPlayer).getNumber());
+	public int compareTo(Player o) {
+		return ((Integer) this.getNumber()).compareTo(o.getNumber());
 	}
 }

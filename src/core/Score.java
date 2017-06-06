@@ -75,87 +75,8 @@ public class Score {
 		return new Score(newScore, newPuddingCount, other.getMakiScore());
 	}
 
-	// TODO: Test this thoroughly
-	// TODO: Allow handling of ties
-	// TODO: Allow single winner (i.e. no second highest)
-	public static Score[] addMakis(Score[] scores) {
-
-		int highIndex = 0;
-		int highScore = 0;
-		int secondIndex = 0;
-		int secondScore = 0;
-
-		for (int i = 0; i < scores.length; i++) {
-			int score = scores[i].getMakiScore();
-			if (score > highScore) {
-				// Set the second highest to the current max
-				secondIndex = highIndex;
-				secondScore = highScore;
-
-				// Set the highest to the new one
-				highIndex = i;
-				highScore = score;
-			} else if (score > secondScore) {
-				// Set the second highest to the new one
-				secondIndex = i;
-				secondScore = score;
-			}
-		}
-
-		Score highest = scores[highIndex];
-		scores[highIndex] = highest.addScore(new Score(6, 0, 0));
-
-		Score second = scores[secondIndex];
-		scores[secondIndex] = second.addScore(new Score(3, 0, 0));
-
-		return scores;
-
-	}
-
-	/**
-	 * Static method to calculate the bonus and reduction for the most
-	 * and least puddings
-	 * @param scores
-	 * @return
-	 */
-	public static Score[] addPuddings(Score[] scores) {
-		int highIndex = 0;
-		int highCount = 0;
-		int lowIndex = 0;
-		int lowCount = Integer.MAX_VALUE;
-
-		for (int i = 0; i < scores.length; i++) {
-			int puddingCount = scores[i].getPuddingCount();
-			if (puddingCount > highCount) {
-				highCount = puddingCount;
-				highIndex = i;
-			} else if (puddingCount < lowCount) {
-				lowCount = puddingCount;
-				lowIndex = i;
-			}
-		}
-
-		//Only give a bonus if someone has puddings
-		if (highCount > 0) {
-			Score highest = scores[highIndex];
-			scores[highIndex] = highest.addScore(new Score(6, 0, 0));
-		}
-		
-		Score lowest = scores[lowIndex];
-		scores[lowIndex] = lowest.addScore(new Score(-6, 0, 0));
-
-		return scores;
-	}
-
-	/**
-	 * Static method to calculate the score from an array of cards representing
-	 * the cards played in order
-	 * 
-	 * @param cards
-	 *            the played cards
-	 * @return the Score from the played cards
-	 */
-	public static Score getScore(Card[] cards) {
+	
+	public static Score getScore(ArrayList<Card> cards) {
 		int score = 0;
 		int makiScore = 0;
 		int tempuraCount = 0;
@@ -206,38 +127,102 @@ public class Score {
 		return new Score(score, puddingCount, makiScore);
 	}
 	
-	public static void getRoundScore(ArrayList<Player> players) {
-		Score[] scores = new Score[players.size()];
-		int count = 0;
-		for (Player player : players) {
-			//Convert ArrayList to Array
-			ArrayList<Card> cards = player.getPlayedCards();
-			Card[] cardArray = new Card[cards.size()];
-			cardArray = cards.toArray(cardArray);
-			
-			//Add Score to array of scores
-			scores[count] = Score.getScore(cardArray);
-		}
-		
-		Score.addMakis(scores);
-		
+	// TODO: Test this thoroughly
+	// TODO: Allow handling of ties
+	// TODO: Allow single winner (i.e. no second highest)
+	public static ArrayList<Player> addMakis(ArrayList<Player> players) {
+
+		int highIndex = 0;
+		int highScore = 0;
+		int secondIndex = 0;
+		int secondScore = 0;
+
 		for (int i = 0; i < players.size(); i++) {
-			players.get(i).getScore().addScore(scores[i]);
+			int score = players.get(i).getScore().getMakiScore();
+			if (score > highScore) {
+				// Set the second highest to the current max
+				secondIndex = highIndex;
+				secondScore = highScore;
+
+				// Set the highest to the new one
+				highIndex = i;
+				highScore = score;
+			} else if (score > secondScore) {
+				// Set the second highest to the new one
+				secondIndex = i;
+				secondScore = score;
+			}
 		}
+
+		players.get(highIndex).updateScore(new Score(6, 0, 0));
+		players.get(secondIndex).updateScore(new Score(3, 0, 0));
+		
+		System.out.println(players.get(highIndex) + " scored +6 for most Makis with " + highScore);
+		System.out.println(players.get(secondIndex) + " scored +3 for second most Makis with " + secondScore);
+		
+		return players;
+
+	}
+
+	/**
+	 * Static method to calculate the bonus and reduction for the most
+	 * and least puddings
+	 * @param scores
+	 * @return
+	 */
+	public static ArrayList<Player> addPuddings(ArrayList<Player> players) {
+		int highIndex = 0;
+		int highCount = 0;
+		int lowIndex = 0;
+		int lowCount = Integer.MAX_VALUE;
+
+		for (int i = 0; i < players.size(); i++) {
+			int puddingCount = players.get(i).getScore().getPuddingCount();
+			if (puddingCount > highCount) {
+				highCount = puddingCount;
+				highIndex = i;
+			} else if (puddingCount < lowCount) {
+				lowCount = puddingCount;
+				lowIndex = i;
+			}
+		}
+
+		//Only give a bonus if someone has puddings
+		if (highCount > 0) {
+			players.get(highIndex).updateScore(new Score(6, 0, 0));
+			System.out.println(players.get(highIndex) + " scored +6 for most Puddings with " + highCount);
+		}
+		
+		players.get(lowIndex).updateScore(new Score(-6, 0, 0));
+		System.out.println(players.get(lowIndex) + " scored -6 for least Puddings with " + lowCount);
+
+		return players;
 		
 	}
 	
-	public static void getFinalScore(ArrayList<Player> players) {
-		Score[] scores = new Score[players.size()];
-		
-		for (int i = 0; i < players.size(); i++) {
-			scores[i] = players.get(i).getScore();
+	public static ArrayList<Player> getScores(ArrayList<Player> players) {
+		for (Player player : players) {
+			ArrayList<Card> playedCards = player.getPlayedCards();
+			Score newScore = Score.getScore(playedCards);
+			player.updateScore(newScore);
+			System.out.println(player + " scored " + newScore.getNumScore() + " from Nigiris, Tempuras and Sashimis");
 		}
 		
-		Score.addPuddings(scores);
+		return players;
+	}
+	
+	public static ArrayList<Player> getRoundScore(ArrayList<Player> players) {
+		players = getScores(players);
+		return addMakis(players);
 		
-		for (int i = 0; i < players.size(); i++) {
-			players.get(i).getScore().addScore(scores[i]);
+	}
+	
+	public static void showScores(ArrayList<Player> players) {
+		for(int i = 0; i < players.size(); i++) {
+			System.out.println(players.get(i));
+			players.get(i).showPlayed();
+			System.out.println(players.get(i).getScore().getNumScore());
+			
 		}
 	}
 	

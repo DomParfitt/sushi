@@ -99,9 +99,13 @@ public class Deck {
 	}
 
 	public void insert(Card card) {
-		Random rand = new Random();
-		int index = rand.nextInt(getDeckSize());
-		getCards().add(index, card);
+		if (getDeckSize() == 0) {
+			insertTop(card);
+		} else {
+			Random rand = new Random();
+			int index = rand.nextInt(getDeckSize());
+			getCards().add(index, card);
+		}
 	}
 
 	public void insertBottom(Card card) {

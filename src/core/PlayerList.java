@@ -2,12 +2,18 @@ package core;
 
 import java.util.ArrayList;
 
-public class AllPlayers {
+public class PlayerList {
 
+	private int maxPlayers;
 	private ArrayList<Player> players;
 	
-	public AllPlayers() {
+	public PlayerList() {
 		this.players = new ArrayList<Player>();
+	}
+	
+	public PlayerList(int maxPlayers) {
+		this();
+		this.maxPlayers = maxPlayers;
 	}
 	
 	public void addPlayer(Player player) {
@@ -18,7 +24,12 @@ public class AllPlayers {
 		return this.players.size();
 	}
 	
-	public Score[] getScores() {
+	public ArrayList<Player> getPlayers() {
+		return this.players;
+	}
+	
+	@Deprecated
+	public Score[] getScoresArray() {
 		Score[] scores = new Score[getPlayerCount()];
 		for (int i = 0; i < getPlayerCount(); i++) {
 			scores[i] = this.players.get(i).getScore();
@@ -27,7 +38,7 @@ public class AllPlayers {
 		return scores;
 	}
 	
-	public ArrayList<Score> getScoresList() {
+	public ArrayList<Score> getScores() {
 		ArrayList<Score> scores = new ArrayList<Score>();
 		
 		for (int i = 0; i < getPlayerCount(); i++) {
