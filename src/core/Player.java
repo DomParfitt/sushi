@@ -42,6 +42,10 @@ public class Player implements Comparable {
 		this.hand = hand;
 	}
 	
+	public Score getScore() {
+		return this.score;
+	}
+	
 	public ArrayList<Card> getHand() {
 		return this.hand;
 	}

@@ -1,6 +1,6 @@
 package core;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import cards.Card;
 
@@ -202,6 +202,41 @@ public class Score {
 		score += ((sashimiCount / 3) * 10);
 
 		return new Score(score, puddingCount, makiScore);
+	}
+	
+	public static void getRoundScore(ArrayList<Player> players) {
+		Score[] scores = new Score[players.size()];
+		int count = 0;
+		for (Player player : players) {
+			//Convert ArrayList to Array
+			ArrayList<Card> cards = player.getPlayedCards();
+			Card[] cardArray = new Card[cards.size()];
+			cardArray = cards.toArray(cardArray);
+			
+			//Add Score to array of scores
+			scores[count] = Score.getScore(cardArray);
+		}
+		
+		Score.addMakis(scores);
+		
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).getScore().addScore(scores[i]);
+		}
+		
+	}
+	
+	public static void getFinalScore(ArrayList<Player> players) {
+		Score[] scores = new Score[players.size()];
+		
+		for (int i = 0; i < players.size(); i++) {
+			scores[i] = players.get(i).getScore();
+		}
+		
+		Score.addPuddings(scores);
+		
+		for (int i = 0; i < players.size(); i++) {
+			players.get(i).getScore().addScore(scores[i]);
+		}
 	}
 	
 }

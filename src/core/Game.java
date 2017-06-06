@@ -28,12 +28,24 @@ public class Game {
 		this.players.add(player);
 	}
 
-	public void deal() {
+	private void deal() {
 		for (int i = 0; i < this.handSize; i++) {
 			for (Player player : this.players) {
 				player.receiveCard(this.deck.deal());
 			}
 		}
+	}
+	
+	private void switchHands() {
+		ArrayList<ArrayList<Card>> hands = new ArrayList<ArrayList<Card>>();
+		for (Player player : this.players) {
+			hands.add(player.getHand());
+		}
+		
+		for(int j = 0; j < hands.size(); j++) {
+			this.players.get((j+1) % this.players.size()).receiveHand(hands.get(j));
+		}
+		
 	}
 
 	public void play() {
@@ -51,16 +63,10 @@ public class Game {
 				player.playCard(index);
 			}
 			
-			//Switch hands
-			ArrayList<ArrayList<Card>> hands = new ArrayList<ArrayList<Card>>();
-			for (Player player : this.players) {
-				hands.add(player.getHand());
-			}
+			switchHands();
 			
-			for(int j = 0; j < hands.size(); j++) {
-				this.players.get((j+1) % this.players.size()).receiveHand(hands.get(j));
-			}
 		}
+		in.close();
 		
 		Score[] scores = new Score[this.players.size()];
 		int count = 0;
