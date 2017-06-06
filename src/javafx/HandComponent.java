@@ -7,7 +7,7 @@ public class HandComponent extends HBox {
 //	private ArrayList<CardButton> cardButtons;
 	
 	public HandComponent() {
-		this.setPrefSize(500, 300);
+//		this.setPrefSize(500, 300);
 //		this.cardButtons = new ArrayList<CardButton>();
 	}
 	
