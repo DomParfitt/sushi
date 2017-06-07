@@ -40,6 +40,15 @@ public class Game {
 		// TODO: Add player limit and check
 		this.players.add(player);
 	}
+	
+	public ArrayList<Card> getHand(Player player) {
+		int index = players.indexOf(player);
+		if(index >= 0) {
+			return players.get(index).getHand();
+		} else {
+			return new ArrayList<Card>();
+		}
+	}
 
 	/**
 	 * Deals the top card from the deck. If the deck is empty then it switches
@@ -51,7 +60,7 @@ public class Game {
 		// If the deck is empty switch with the discard pile and clear it
 		if (this.deck.getDeckSize() <= 0) {
 			this.deck = this.discard;
-			this.discard = new Deck();
+			this.discard.getCards().clear();
 		}
 
 		return this.deck.deal();
@@ -60,7 +69,7 @@ public class Game {
 	/**
 	 * Deal out a hand to each player
 	 */
-	private void deal() {
+	public void deal() {
 		for (int i = 0; i < this.handSize; i++) {
 			for (Player player : this.players) {
 				player.receiveCard(dealCard());
