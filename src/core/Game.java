@@ -104,18 +104,26 @@ public class Game {
 	/**
 	 * Play the game
 	 * 
-	 * Pre-requisites: 1) At least 2 players 2) Enough cards (Deck size >= num
-	 * Players * hand size)
+	 * Pre-requisites: 
+	 * 1) At least 2 players 
+	 * 2) Enough cards (Deck size >= num Players * hand size)
 	 * 
-	 * Order of play: 1) Deal each player a hand 2) Each player plays a card
-	 * (series/parallel depending on implementation) 3) Players pass hands 4)
-	 * Continue until no cards left 5) Calculate basic score for each player 6)
-	 * Assign Maki bonuses 7) Add played hands to discard pile (Opt) Show
-	 * running scores 8) Repeat 1-7 as many times as there are rounds 9) Assign
-	 * pudding bonus/forfeit 10) Show final scores, declare winner
+	 * Order of play: 
+	 * 1) Deal each player a hand 
+	 * 2) Each player plays a card(series/parallel depending on implementation) 
+	 * 3) Players pass hands 
+	 * 4) Continue until no cards left 
+	 * 5) Calculate basic score for each player 
+	 * 6) Assign Maki bonuses 
+	 * 7) Add played hands to discard pile 
+	 * (Opt) Show running scores 
+	 * 8) Repeat 1-7 as many times as there are rounds 
+	 * 9) Assign pudding bonus/forfeit 
+	 * 10) Show final scores, declare winner
 	 */
 	public void play() {
 
+		//Scanner to get user input
 		Scanner in = new Scanner(System.in);
 		
 		for (int round = 0; round < this.rounds; round++) {
@@ -123,6 +131,7 @@ public class Game {
 			System.out.println("////////////////////////////");
 			System.out.println("//        ROUND " + (round +1) + "         //");
 			System.out.println("////////////////////////////");
+			
 			// 1) Deal each player a hand
 			deal();
 
@@ -143,10 +152,7 @@ public class Game {
 				// 3) Players switch hands
 				switchHands();
 
-			}
-			// 4) Continue until no cards left
-
-			
+			} // 4) Continue until no cards left
 
 			// 5) Calculate basic score for each player
 			// 6) Assign Maki bonuses
@@ -157,6 +163,7 @@ public class Game {
 
 			// 7) Add played hands to discard pile
 			discardPlayedCards(players);
+			
 		} // 8) Repeat 1-7 for each round
 
 		// 9) Assign pudding bonus/forfeit
@@ -164,12 +171,8 @@ public class Game {
 
 		// 10) Show final scores
 		Score.showScores(players);
-		// for(int i = 0; i < this.players.size(); i++) {
-		// System.out.println(players.get(i));
-		// players.get(i).showPlayed();
-		// System.out.println(players.get(i).getScore().getNumScore());
-		//
-		// }
+
+		//Close scanner
 		in.close();
 	}
 	

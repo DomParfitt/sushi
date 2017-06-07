@@ -14,7 +14,7 @@ public class CardButton extends Button {
 		this.isShowing = true;
 		this.setPrefSize(125, 200);
 //		this.setText("FRONT");
-		this.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("tempura.jpg"))));
+//		this.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("tempura.jpg"))));
 	}
 	
 	public boolean isShowing() {
