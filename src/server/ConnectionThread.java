@@ -30,7 +30,18 @@ public class ConnectionThread extends Thread {
 	public void run() {
 //		while (true) {
 			try {
-				in.readObject();
+				
+				//TODO: Might need to be threaded so that multiple actions can be queued?
+				
+				//Get message from the player
+				PlayerAction action = (PlayerAction) in.readObject();
+				
+				//Do the action
+				
+				//Return the new game state
+				out.writeObject(null);
+				
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

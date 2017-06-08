@@ -21,6 +21,7 @@ public class ConnectionHandler extends Thread  {
 	@Override
 	public void run() {
 		try {
+			//TODO: Add port and IP address
 			serverSocket = new ServerSocket();
 			Socket socket = serverSocket.accept();
 			ConnectionThread connection = new ConnectionThread(server, socket);

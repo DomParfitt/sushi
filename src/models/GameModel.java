@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import cards.Card;
@@ -32,7 +33,21 @@ public class GameModel extends Observable {
 		notifyObservers();
 	}
 	
+	public void playCard(Player player, Card card) {
+		int index = game.getPlayers().indexOf(player);
+		List<Card> hand = game.getPlayers().get(index).getHand();
+		int cardIndex = hand.indexOf(card);
+		game.getPlayers().get(index).playCard(cardIndex);
+		setChanged();
+		notifyObservers();
+		
+	}
+	
 	public ArrayList<Card> getHand(Player player) {
 		return game.getHand(player);
+	}
+	
+	public ArrayList<Card> getPlayedCards(Player player) {
+		return game.getPlayedCards(player);
 	}
 }

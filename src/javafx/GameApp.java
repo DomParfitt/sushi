@@ -1,8 +1,8 @@
 package javafx;
-import core.Game;
 import core.Player;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.GameModel;
 
@@ -10,6 +10,7 @@ public class GameApp extends Application {
 
 	public Stage stage;
 	public HandView handView;
+	public PlayedCardsView playedCardsView;
 	public NewPlayerPane newPlayerView;
 	
 	public static void main(String[] args) {
@@ -25,17 +26,25 @@ public class GameApp extends Application {
 		
 		Player dom = new Player("Dom");
 		
-		//Create views
-//		newPlayerView = new NewPlayerPane(this);
-		StartView startView = new StartView(this);
-		handView = new HandView(dom);
-		
 		//Create model
 		GameModel gameModel = new GameModel();
 		gameModel.addPlayer(dom);
+		
+		//Create views
+//		newPlayerView = new NewPlayerPane(this);
+		StartView startView = new StartView(this);
+		handView = new HandView(dom, new HandController(gameModel));
+		
+		playedCardsView = new PlayedCardsView(dom);
+		
+		//Add Observers to model
 		gameModel.addObserver(handView);
+		gameModel.addObserver(playedCardsView);
 		gameModel.deal();
 
+		//Add Controllers
+//		handView.addController(new HandController(gameModel));
+		
 //		Scene handScene = new Scene(handView);
 		
 		Scene newPlayerScene = new Scene(startView);
@@ -47,7 +56,10 @@ public class GameApp extends Application {
 	}
 
 	public void showHandView() {
-		stage.setScene(new Scene(handView));
+		VBox vbox = new VBox();
+		vbox.getChildren().add(playedCardsView);
+		vbox.getChildren().add(handView);
+		stage.setScene(new Scene(vbox));
 	}
 	
 }

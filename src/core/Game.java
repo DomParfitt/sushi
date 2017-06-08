@@ -41,10 +41,23 @@ public class Game {
 		this.players.add(player);
 	}
 	
+	public List<Player> getPlayers() {
+		return this.players;
+	}
+	
 	public ArrayList<Card> getHand(Player player) {
 		int index = players.indexOf(player);
 		if(index >= 0) {
 			return players.get(index).getHand();
+		} else {
+			return new ArrayList<Card>();
+		}
+	}
+	
+	public ArrayList<Card> getPlayedCards(Player player) {
+		int index = players.indexOf(player);
+		if(index >= 0) {
+			return players.get(index).getPlayedCards();
 		} else {
 			return new ArrayList<Card>();
 		}
