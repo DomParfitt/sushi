@@ -15,7 +15,20 @@ public class GameState {
 	private Game game;
 	
 	public GameState(Player recipient, Game game) {
-
+		this.recipient = recipient;
+		this.game = new Game();
+		for (Player player : game.getPlayers()) {
+			if (player.equals(recipient)) {
+				this.game.addPlayer(player);
+			} else {
+				Player playerCopy = player.getPublicDetails();
+				this.game.addPlayer(playerCopy);
+			}
+		}
+	}
+	
+	public Game getGame() {
+		return this.game;
 	}
 
 }

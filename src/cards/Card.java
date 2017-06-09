@@ -35,4 +35,9 @@ public abstract class Card {
 		}
 	}
 	
+	public boolean equals(Card other) {
+		return getType().equals(other.getType()) &&
+				getValue() == other.getValue();
+	}
+	
 }

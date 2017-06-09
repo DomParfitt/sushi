@@ -3,15 +3,22 @@ package core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import cardPools.CardPool;
 import cardPools.StandardCardPool;
 import cards.Card;
+import server.PlayerAction;
 
 public class Game {
 
 	private CardPool cardPool;
 	private ArrayList<Player> players;
+	private ArrayList<Future<PlayerAction>> actions;
+	private ThreadPoolExecutor executor;
 	private Deck deck;
 	private Deck discard;
 	private int handSize;
@@ -26,6 +33,8 @@ public class Game {
 		this.deck.shuffle();
 		this.discard = new Deck();
 		this.players = new ArrayList<Player>();
+		this.actions = new ArrayList<Future<PlayerAction>>();
+		this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4); //TODO: Implement player limit and make number of threads equal to it
 		this.handSize = 3;
 		this.rounds = 3;
 	}
@@ -39,10 +48,16 @@ public class Game {
 	public void addPlayer(Player player) {
 		// TODO: Add player limit and check
 		this.players.add(player);
+//		this.threads.add(new PlayerThread(player));
 	}
 	
 	public List<Player> getPlayers() {
 		return this.players;
+	}
+	
+	public Player getPlayer(Player player) {
+		int index = players.indexOf(player);
+		return players.get(index);
 	}
 	
 	public ArrayList<Card> getHand(Player player) {
@@ -196,6 +211,30 @@ public class Game {
 
 		//Close scanner
 		in.close();
+	}
+	
+	public void playSingle() {
+		deal();
+		for (Player player : players){
+			actions.add(executor.submit(player.getPlayerThread()));
+		}
+		
+		for(Future<PlayerAction> action : actions) {
+			try {
+				PlayerAction playerAction = action.get();
+				Player player = playerAction.getPlayer();
+				Card card = playerAction.getCard();
+				getPlayer(player).playCard(card);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		switchHands();
 	}
 	
 

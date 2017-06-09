@@ -12,6 +12,7 @@ public class GameApp extends Application {
 	public HandView handView;
 	public PlayedCardsView playedCardsView;
 	public NewPlayerPane newPlayerView;
+	public GameModel gameModel;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -27,7 +28,7 @@ public class GameApp extends Application {
 		Player dom = new Player("Dom");
 		
 		//Create model
-		GameModel gameModel = new GameModel();
+		gameModel = new GameModel();
 		gameModel.addPlayer(dom);
 		
 		//Create views
@@ -60,6 +61,10 @@ public class GameApp extends Application {
 		vbox.getChildren().add(playedCardsView);
 		vbox.getChildren().add(handView);
 		stage.setScene(new Scene(vbox));
+	}
+	
+	public void play() {
+		gameModel.play();
 	}
 	
 }

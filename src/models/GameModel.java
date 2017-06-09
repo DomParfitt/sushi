@@ -7,6 +7,7 @@ import java.util.Observable;
 import cards.Card;
 import core.Game;
 import core.Player;
+import server.GameState;
 
 public class GameModel extends Observable {
 
@@ -41,6 +42,16 @@ public class GameModel extends Observable {
 		setChanged();
 		notifyObservers();
 		
+	}
+	
+	public void updateGameState(GameState state) {
+		this.game = state.getGame();
+		setChanged();
+		notifyObservers();
+	}
+	
+	public void play() {
+		this.game.playSingle();
 	}
 	
 	public ArrayList<Card> getHand(Player player) {
