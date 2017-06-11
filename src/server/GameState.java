@@ -16,7 +16,7 @@ public class GameState {
 	
 	public GameState(Player recipient, Game game) {
 		this.recipient = recipient;
-		this.game = new Game();
+		this.game = new Game(game.getMaxPlayers());
 		for (Player player : game.getPlayers()) {
 			if (player.equals(recipient)) {
 				this.game.addPlayer(player);

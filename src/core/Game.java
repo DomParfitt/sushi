@@ -13,6 +13,11 @@ import cardPools.StandardCardPool;
 import cards.Card;
 import server.PlayerAction;
 
+/**
+ * Class to represent the core game
+ * @author Dom Parfitt
+ *
+ */
 public class Game {
 
 	private CardPool cardPool;
@@ -23,11 +28,12 @@ public class Game {
 	private Deck discard;
 	private int handSize;
 	private int rounds;
+	private int maxPlayers;
 
 	/**
 	 * Default constructor for the game
 	 */
-	public Game() {
+	public Game(int maxPlayers) {
 		this.cardPool = new StandardCardPool();
 		this.deck = new Deck(cardPool);
 		this.deck.shuffle();
@@ -37,6 +43,7 @@ public class Game {
 		this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4); //TODO: Implement player limit and make number of threads equal to it
 		this.handSize = 3;
 		this.rounds = 3;
+		this.maxPlayers = maxPlayers;
 	}
 
 	/**
@@ -47,19 +54,35 @@ public class Game {
 	 */
 	public void addPlayer(Player player) {
 		// TODO: Add player limit and check
-		this.players.add(player);
+		if (players.size() < maxPlayers) {
+			this.players.add(player);
+		}
 //		this.threads.add(new PlayerThread(player));
 	}
 	
+	/**
+	 * Gets a list of the current players in the game
+	 * @return
+	 */
 	public List<Player> getPlayers() {
 		return this.players;
 	}
 	
+	/**
+	 * Gets a particular player
+	 * @param player the player object to retrieve
+	 * @return the player object
+	 */
 	public Player getPlayer(Player player) {
 		int index = players.indexOf(player);
 		return players.get(index);
 	}
 	
+	/**
+	 * Gets the hand of a particular player
+	 * @param player the player to get the hand of
+	 * @return an ArrayList of Cards representing the player's hand
+	 */
 	public ArrayList<Card> getHand(Player player) {
 		int index = players.indexOf(player);
 		if(index >= 0) {
@@ -69,6 +92,11 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Gets the played cards of a particular player
+	 * @param player the player to get the played cards of
+	 * @return an ArrayList of Cards representing the player's played cards
+	 */
 	public ArrayList<Card> getPlayedCards(Player player) {
 		int index = players.indexOf(player);
 		if(index >= 0) {
@@ -77,12 +105,16 @@ public class Game {
 			return new ArrayList<Card>();
 		}
 	}
+	
+	public int getMaxPlayers() {
+		return this.maxPlayers;
+	}
 
 	/**
 	 * Deals the top card from the deck. If the deck is empty then it switches
 	 * in the discard pile (shuffled) to allow the game to continue
 	 * 
-	 * @return
+	 * @return a Card object, the top card on the deck
 	 */
 	private Card dealCard() {
 		// If the deck is empty switch with the discard pile and clear it
@@ -131,6 +163,11 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Adds all the played cards of the Players provided to the
+	 * discard pile
+//	 * @param players a list of players
+	 */
 	private void discardPlayedCards(List<Player> players) {
 		for (Player player : players) {
 			addToDiscardPile(player.getPlayedCards());
@@ -215,24 +252,27 @@ public class Game {
 	
 	public void playSingle() {
 		deal();
-		for (Player player : players){
-			actions.add(executor.submit(player.getPlayerThread()));
+		for (Player player : players) {
+			player.getPlayedCards();
 		}
-		
-		for(Future<PlayerAction> action : actions) {
-			try {
-				PlayerAction playerAction = action.get();
-				Player player = playerAction.getPlayer();
-				Card card = playerAction.getCard();
-				getPlayer(player).playCard(card);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		for (Player player : players){
+//			actions.add(executor.submit(player.getPlayerThread()));
+//		}
+//		
+//		for(Future<PlayerAction> action : actions) {
+//			try {
+//				PlayerAction playerAction = action.get();
+//				Player player = playerAction.getPlayer();
+//				Card card = playerAction.getCard();
+//				getPlayer(player).playCard(card);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (ExecutionException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		
 		switchHands();
 	}

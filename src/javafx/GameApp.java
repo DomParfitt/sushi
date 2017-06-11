@@ -28,7 +28,7 @@ public class GameApp extends Application {
 		Player dom = new Player("Dom");
 		
 		//Create model
-		gameModel = new GameModel();
+		gameModel = new GameModel(1);
 		gameModel.addPlayer(dom);
 		
 		//Create views
@@ -50,7 +50,8 @@ public class GameApp extends Application {
 		
 		Scene newPlayerScene = new Scene(startView);
 		newPlayerScene.getStylesheets().add(javafx.GameApp.class.getResource("stylesheet.css").toExternalForm());
-		stage.setScene(newPlayerScene);
+//		stage.setScene(newPlayerScene);
+		showHandView();
 		
 		stage.show();
 		

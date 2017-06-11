@@ -19,6 +19,7 @@ public class NewPlayerPane extends GridPane {
 			@Override
 			public void handle(ActionEvent e) {
 				app.showHandView();
+//				app.play();
 			}
 			
 		});

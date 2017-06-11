@@ -13,8 +13,8 @@ public class GameModel extends Observable {
 
 	private Game game;
 	
-	public GameModel() {
-		this.game = new Game();
+	public GameModel(int maxPlayers) {
+		this.game = new Game(maxPlayers);
 	}
 	
 	public GameModel(Game game) {
