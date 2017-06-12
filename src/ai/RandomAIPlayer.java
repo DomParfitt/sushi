@@ -3,9 +3,8 @@ package ai;
 import java.util.Random;
 
 import cards.Card;
-import core.Player;
 
-public class RandomAIPlayer extends Player {
+public class RandomAIPlayer extends AIPlayer {
 
 	public RandomAIPlayer(String name) {
 		super(name);
