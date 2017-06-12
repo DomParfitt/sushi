@@ -1,6 +1,7 @@
 package javafx;
 
 import cards.Card;
+import core.Game;
 import core.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,10 +10,10 @@ import models.GameModel;
 
 public class HandController {
 
-	private GameModel model;
+	private Game model;
 	
-	public HandController(GameModel model) {
-		this.model = model;
+	public HandController(Game gameModel) {
+		this.model = gameModel;
 	}
 	
 	public void addAction(Button button, Player player, Card card) {
@@ -20,7 +21,7 @@ public class HandController {
 
 			@Override
 			public void handle(ActionEvent event) {
-				model.playCard(player, card);
+//				model.playCard(player, card);
 			}
 			
 		});
