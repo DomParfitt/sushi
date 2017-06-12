@@ -25,13 +25,13 @@ public class BoardView extends VBox implements Observer {
 
 	@Override
 	public void update(Observable obs, Object obj) {
-		System.out.println("BoardView update called");
+//		System.out.println("BoardView update called");
 
 		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
-				System.out.println("Updating BoardView");
+//				System.out.println("Updating BoardView");
 				getChildren().clear();
 				Game game = (Game) obs;
 				List<Player> players = game.getPlayers();
