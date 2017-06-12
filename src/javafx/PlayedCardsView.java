@@ -6,10 +6,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import cards.Card;
+import core.Game;
 import core.Player;
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import models.GameModel;
 
 public class PlayedCardsView extends HBox implements Observer {
 	
@@ -28,13 +29,21 @@ public class PlayedCardsView extends HBox implements Observer {
 	@Override
 	public void update(Observable obs, Object arg1) {
 		// TODO Auto-generated method stub
-		this.getChildren().clear();
-		List<Card> played = ((GameModel) obs).getPlayedCards(player);
-		this.cards.clear();
-		for (Card card : played) {
-			this.cards.add(new Label(card.getName()));
-			this.getChildren().add(new Label(card.getName()));
-		}
+		Platform.runLater(new Runnable() {
+
+			@Override
+			public void run() {
+				getChildren().clear();
+				List<Card> played = ((Game) obs).getPlayedCards(player);
+				cards.clear();
+				for (Card card : played) {
+					cards.add(new Label(card.getName()));
+					getChildren().add(new Label(card.getName()));
+				}
+			}
+			
+		});
+		
 	}
 
 

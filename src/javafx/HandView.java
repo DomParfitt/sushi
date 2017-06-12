@@ -6,47 +6,86 @@ import java.util.Observable;
 import java.util.Observer;
 
 import cards.Card;
+import core.Game;
 import core.Player;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import models.GameModel;
 
 /**
  * @author Dom Parfitt
  *
  */
 public class HandView extends HBox implements Observer {
-	
+
 	private List<Button> cards;
 	private Player player;
 	private HandController controller;
-	
-	public HandView(Player player, HandController controller) {
+
+	public HandView(Player player) {
 		this.player = player;
 		this.cards = new ArrayList<Button>();
-		this.controller = controller;
+		// this.controller = controller;
 	}
-	
+
 	public void addController(HandController controller) {
 		this.controller = controller;
 	}
-	
+
 	public void addCard() {
-		
+
 	}
 
 	@Override
 	public void update(Observable obs, Object arg1) {
-		// TODO Auto-generated method stub
-		List<Card> hand = ((GameModel) obs).getHand(player);
-		this.getChildren().clear();
-		this.cards.clear();
-		for (Card card : hand) {
-			Button button = new Button(card.getName());
-			controller.addAction(button, player, card);
-			this.cards.add(button);
-			this.getChildren().add(button);
-		}
+		System.out.println("HandView update called");
+
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Updating HandView");
+				if (obs.getClass().equals(Game.class)) {
+					System.out.println("Update from Game");
+					// TODO Auto-generated method stub
+					List<Card> hand = ((Game) obs).getHand(player);
+					getChildren().clear();
+					cards.clear();
+					for (Card card : hand) {
+						Button button;
+						if(card.getName() == "Maki Roll") {
+							button = new Button(card.getName() + " (" + card.getValue() + ")");
+						} else {
+							button = new Button(card.getName());
+						}
+						button.setDisable(true);
+						// controller.addAction(button, player, card);
+						button.setOnAction(new EventHandler<ActionEvent>() {
+
+							@Override
+							public void handle(ActionEvent arg0) {
+								player.play(card);
+
+							}
+
+						});
+						cards.add(button);
+						getChildren().add(button);
+					}
+				} else {
+					System.out.println("Update from Player");
+					for (Node node : getChildren()) {
+						Button button = (Button) node;
+						button.setDisable(false);
+					}
+				}
+
+			}
+
+		});
+
 	}
 
 }
