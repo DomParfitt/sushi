@@ -2,11 +2,11 @@ package core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Observable;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
+import java.util.TreeMap;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import cardPools.CardPool;
 import cardPools.StandardCardPool;
@@ -18,12 +18,13 @@ import server.PlayerAction;
  * @author Dom Parfitt
  *
  */
-public class Game {
+public class Game extends Observable {
 
 	private CardPool cardPool;
 	private ArrayList<Player> players;
+//	private ArrayList<CardRequester> threads;
+	private TreeMap<Player, Card> played;
 	private ArrayList<Future<PlayerAction>> actions;
-	private ThreadPoolExecutor executor;
 	private Deck deck;
 	private Deck discard;
 	private int handSize;
@@ -39,8 +40,9 @@ public class Game {
 		this.deck.shuffle();
 		this.discard = new Deck();
 		this.players = new ArrayList<Player>();
+//		this.threads = new ArrayList<>();
+		this.played = new TreeMap<>();
 		this.actions = new ArrayList<Future<PlayerAction>>();
-		this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4); //TODO: Implement player limit and make number of threads equal to it
 		this.handSize = 3;
 		this.rounds = 3;
 		this.maxPlayers = maxPlayers;
@@ -52,12 +54,56 @@ public class Game {
 	 * @param player
 	 *            the player to add
 	 */
-	public void addPlayer(Player player) {
-		// TODO: Add player limit and check
+	public synchronized void addPlayer(Player player) {
 		if (players.size() < maxPlayers) {
 			this.players.add(player);
+//			this.threads.add(new CardRequester(this, player));
+			notifyAll();
 		}
-//		this.threads.add(new PlayerThread(player));
+		setChanged();
+		notifyObservers();
+	}
+	
+	public synchronized void addPlayedCard(Player player, Card card) {
+		played.put(player, card);
+		notifyAll();
+	}
+	
+	public synchronized Map<Player, Card> getPlayedCards() {
+		while (played.size() < maxPlayers) {
+			try {
+				System.out.println("[Game] # of played cards: " + played.size());
+				System.out.println("[Game] Waiting until there are enough cards");
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println("[Game] There are enough played cards now");
+//		Map<Player, Card> output = played;
+//		played.clear();
+		return played;
+	}
+	
+	public synchronized void requestCards() {
+		//For some reason it doesn't like this
+//		for(CardRequester requester : threads) {
+//			requester.start();
+//		}
+		for (Player player : players) {
+			CardRequester requester = new CardRequester(this, player);
+			requester.start();
+		}
+
+		while (played.size() < maxPlayers) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -135,6 +181,8 @@ public class Game {
 				player.receiveCard(dealCard());
 			}
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -149,6 +197,9 @@ public class Game {
 		for (int j = 0; j < hands.size(); j++) {
 			this.players.get((j + 1) % this.players.size()).receiveHand(hands.get(j));
 		}
+		setChanged();
+		notifyObservers();
+		
 	}
 
 	/**
@@ -203,7 +254,7 @@ public class Game {
 		for (int round = 0; round < this.rounds; round++) {
 			
 			System.out.println("////////////////////////////");
-			System.out.println("//        ROUND " + (round +1) + "         //");
+			System.out.println("//        ROUND " + (round + 1) + "         //");
 			System.out.println("////////////////////////////");
 			
 			// 1) Deal each player a hand
@@ -248,6 +299,46 @@ public class Game {
 
 		//Close scanner
 		in.close();
+	}
+	
+	public synchronized void start() {
+		GameThread thread = new GameThread(this);
+		thread.start();
+	}
+	
+	public synchronized void startGame() {
+		System.out.println("Game will start when enough players join");
+		while(players.size() != maxPlayers) {
+			try {
+				System.out.println(players.size() + " players have joined, waiting for " + (maxPlayers - players.size() + " more"));
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Starting game");
+		
+		deal();
+		
+		for(int i = 0; i < rounds; i++) {
+			requestCards();
+			
+//			Map<Player, Card> playedCards = getPlayedCards();
+			for(Player player : played.keySet()) {
+				System.out.println(player + " plays " + played.get(player));
+				player.playCard(played.get(player));
+				System.out.println("Played cards are: ");
+				player.showPlayed();
+			}
+			played.clear();
+			
+			switchHands();
+		}
+		
+		Score.getRoundScore(players);
+
+		Score.showScores(players);
+		
 	}
 	
 	public void playSingle() {
