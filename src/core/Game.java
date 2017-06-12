@@ -318,26 +318,37 @@ public class Game extends Observable {
 		}
 		System.out.println("Starting game");
 		
-		deal();
-		
-		for(int i = 0; i < rounds; i++) {
-			requestCards();
+		for(int round = 0; round < rounds; round++) {
+			deal();
 			
-//			Map<Player, Card> playedCards = getPlayedCards();
-			for(Player player : played.keySet()) {
-				System.out.println(player + " plays " + played.get(player));
-				player.playCard(played.get(player));
-				System.out.println("Played cards are: ");
-				player.showPlayed();
+			for(int i = 0; i < handSize; i++) {
+				requestCards(); //Blocks until all cards are in
+				
+				//Update each player with their played card
+				for(Player player : played.keySet()) {
+//					System.out.println(player + " plays " + played.get(player));
+					player.playCard(played.get(player));
+//					System.out.println("Played cards are: ");
+//					player.showPlayed();
+				}
+				
+				//All cards are played so reset the Map
+				played.clear();
+				
+				switchHands();
 			}
-			played.clear();
 			
-			switchHands();
+			Score.getRoundScore(players);
+
+			Score.showScores(players);
+			
+			discardPlayedCards(players);
 		}
 		
-		Score.getRoundScore(players);
+		Score.addPuddings(players);
 
 		Score.showScores(players);
+
 		
 	}
 	
