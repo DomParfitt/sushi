@@ -1,3 +1,4 @@
+import ai.RandomAIPlayer;
 import core.Game;
 import core.Player;
 
@@ -5,10 +6,13 @@ public class Runner {
 
 	public static void main(String[] args) {
 
-		Game game = new Game();
+		Game game = new Game(4);
+		game.start();
 		game.addPlayer(new Player("Dom"));
-		game.addPlayer(new Player("Chris"));
-		game.play();
+		game.addPlayer(new RandomAIPlayer("CPU1"));
+		game.addPlayer(new RandomAIPlayer("CPU2"));
+		game.addPlayer(new RandomAIPlayer("CPU3"));
+//		game.play();
 		
 //		ArrayList<Class<? extends Card>> cardPool = new ArrayList<Class<? extends Card>>();
 //		cardPool.add(Nigiri.class);
