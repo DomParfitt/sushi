@@ -41,14 +41,14 @@ public class HandView extends HBox implements Observer {
 
 	@Override
 	public void update(Observable obs, Object arg1) {
-		System.out.println("HandView update called");
+//		System.out.println("HandView update called");
 
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("Updating HandView");
+//				System.out.println("Updating HandView");
 				if (obs.getClass().equals(Game.class)) {
-					System.out.println("Update from Game");
+//					System.out.println("Update from Game");
 					// TODO Auto-generated method stub
 					List<Card> hand = ((Game) obs).getHand(player);
 					getChildren().clear();
@@ -75,7 +75,7 @@ public class HandView extends HBox implements Observer {
 						getChildren().add(button);
 					}
 				} else {
-					System.out.println("Update from Player");
+//					System.out.println("Update from Player");
 					for (Node node : getChildren()) {
 						Button button = (Button) node;
 						button.setDisable(false);
