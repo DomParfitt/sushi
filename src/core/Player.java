@@ -102,6 +102,8 @@ public class Player extends Observable implements Comparable<Player> {
 		Score current = getScore();
 		Score updated = current.addScore(newScore);
 		this.score = updated;
+		setChanged();
+		notifyObservers();
 	}
 	
 	/**
