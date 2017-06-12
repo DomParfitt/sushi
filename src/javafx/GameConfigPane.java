@@ -13,6 +13,9 @@ public class GameConfigPane extends GridPane {
 	public GameConfigPane(GameApp app) {
 		this.app = app;
 		
+		getStyleClass().clear();
+		getStyleClass().add("pane");
+		
 		//Create hand size spinner
 		handSize = new Spinner<>();
 		handSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 10));

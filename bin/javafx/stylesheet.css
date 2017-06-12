@@ -1,5 +1,6 @@
 .root {
 	-fx-background-color: green;
+	
 }
 
 /*
@@ -9,8 +10,83 @@
 	-fx-background-repeat: no-repeat;
 }
 */
+.pane {
+	-fx-alignment: center;
+	-fx-padding: 10.0px;
+}
+
+.hand-pane {
+	-fx-spacing: 10px;
+}
+
+.card-button {
+	-fx-min-height: 225px;
+	-fx-min-width: 160px;
+	-fx-max-height: 225px;
+	-fx-max-width: 160px;
+	-fx-pref-height: 225px;
+	-fx-pref-width: 160px;
+	-fx-background-position: center;
+	-fx-background-size: 90%;
+	-fx-background-repeat: no-repeat;
+}
+
+.nigiri {
+	-fx-background-image: url("squid_nigiri.png");
+}
+
+.maki {
+	-fx-background-image: url("maki_roll1.jpg");
+}
+
+.sashimi {
+	-fx-background-image: url("sashimi.png");
+}
+
+.wasabi {
+	-fx-background-image: url("wasabi.jpg");
+}
+
+.pudding {
+	-fx-background-image: url("pudding.jpg");
+}
+
+.dumpling {
+	-fx-background-image: url("dumpling.jpg");
+}
+
+.tempura {
+	-fx-background-image: url("tempura.jpg");
+}
+
+.chopsticks {
+	-fx-background-image: url("chopsticks.jpg");
+}
+
+.single-player-setup-view .label {
+	-fx-font-weight: bold;
+}
+
+.title-label {
+	-fx-font-size: 20.0pt;
+	-fx-font-weight: bold; 
+}
 
 .start-view .label {
-	-fx-padding: 0 0 0 100px ;
+	-fx-padding: 0.0 0.0 0.0 100.0px ;
 	-fx-text-alignment: center; 
+}
+
+.score-pane {
+	-fx-alignment: center;
+}
+
+.score-pane .label {
+	-fx-padding: 10.0px;
+	-fx-text-alignment: center;
+}
+
+.score-pane .heading-label {
+	-fx-font-weight: bold;
+	-fx-padding: 5.0px;
 }

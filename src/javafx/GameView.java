@@ -6,26 +6,26 @@ import javafx.scene.layout.VBox;
 public class GameView extends VBox {
 
 	private GameApp app;
-	private BoardView boardView;
-	private HandView handView;
+	private BoardPane boardPane;
+	private HandPane handPane;
 	private ScorePane scorePane;
 	
 	public GameView(GameApp app, Player player) {
 		this.app = app;
-		boardView = new BoardView();
-		handView = new HandView(player);
+		boardPane = new BoardPane();
+		handPane = new HandPane(player);
 		scorePane = new ScorePane();
-		getChildren().add(boardView);
-		getChildren().add(handView);
+		getChildren().add(boardPane);
+		getChildren().add(handPane);
 		getChildren().add(scorePane);
 	}
 	
-	public BoardView getBoardView() {
-		return this.boardView;
+	public BoardPane getBoardPane() {
+		return this.boardPane;
 	}
 	
-	public HandView getHandView() {
-		return this.handView;
+	public HandPane getHandPane() {
+		return this.handPane;
 	}
 	
 	public ScorePane getScorePane() {

@@ -17,9 +17,9 @@ import javafx.scene.layout.VBox;
  * @author Dom Parfitt
  *
  */
-public class BoardView extends VBox implements Observer {
+public class BoardPane extends VBox implements Observer {
 
-	public BoardView() {
+	public BoardPane() {
 
 	}
 

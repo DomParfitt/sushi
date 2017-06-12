@@ -1,5 +1,6 @@
 package javafx;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -9,7 +10,6 @@ import core.Player;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 
 public class ScorePane extends GridPane implements Observer {
 	
@@ -18,11 +18,24 @@ public class ScorePane extends GridPane implements Observer {
 //		headers.getChildren().add(new Label("Player"));
 //		headers.getChildren().add(new Label("Numeric Score"));
 //		headers.getChildren().add(new Label("Pudding Count"));
-		
-		add(new Label("Player"), 0, 0);
-		add(new Label("Numeric Score"), 1, 0);
-		add(new Label("Pudding Count"), 2, 0);
+		getStyleClass().clear();
+		getStyleClass().add("score-pane");
+		addHeadings();
 //		getChildren().add(headers);
+	}
+	
+	private void addHeadings() {
+		ArrayList<Label> headings = new ArrayList<>();
+		headings.add(new Label("Player"));
+		headings.add(new Label("Numeric Score"));
+		headings.add(new Label("Pudding Count"));
+		int count = 0;
+		for(Label heading : headings) {
+			heading.getStyleClass().clear();
+			heading.getStyleClass().add("heading-label");
+			add(heading, count, 0);
+			count++;
+		}
 	}
 
 	@Override
@@ -39,9 +52,7 @@ public class ScorePane extends GridPane implements Observer {
 //				headers.getChildren().add(new Label("Numeric Score"));
 //				headers.getChildren().add(new Label("Pudding Count"));
 //				getChildren().add(headers);
-				add(new Label("Player"), 0, 0);
-				add(new Label("Numeric Score"), 1, 0);
-				add(new Label("Pudding Count"), 2, 0);
+				addHeadings();
 				List<Player> players = game.getPlayers();
 				int row = 1;
 				for (Player player : players) {

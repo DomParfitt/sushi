@@ -2,23 +2,29 @@ package javafx;
 import core.Game;
 import core.Player;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class GameApp extends Application {
+	
+	public static final int WIDTH = 500;
+	public static final int HEIGHT = 500;
 
-	public Stage stage;
+	private Stage stage;
 	
-	public MainMenuView mainMenuView;
-	public SinglePlayerSetUpView singlePlayerSetupView;
-	public GameView gameView;
+	private MainMenuView mainMenuView;
+	private SinglePlayerSetUpView singlePlayerSetupView;
+	private GameView gameView;
 	
-	public HandView handView;
-	public PlayedCardsView playedCardsView;
-	public NewPlayerPane newPlayerView;
-	private BoardView boardView;
-	public Game game;
+	private HandPane handView;
+	private PlayedCardsView playedCardsView;
+	private NewPlayerPane newPlayerView;
+	private BoardPane boardView;
+	private Game game;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -28,6 +34,8 @@ public class GameApp extends Application {
 	public void start(Stage stage) throws Exception {
 
 		this.stage = stage;
+		stage.setWidth(WIDTH);
+		stage.setHeight(HEIGHT);
 		
 		stage.setTitle("Sushi Go");
 		
@@ -69,7 +77,19 @@ public class GameApp extends Application {
 //		stage.setScene(newPlayerScene);
 //		showHandView();
 		
-		stage.setScene(new Scene(mainMenuView));
+		setScene(new Scene(mainMenuView));
+		
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent arg0) {
+				// TODO Auto-generated method stub
+				Platform.exit();
+				System.exit(0);
+			}
+			
+		});
+		
 		stage.show();
 		
 	}
@@ -79,6 +99,7 @@ public class GameApp extends Application {
 	 * @param scene the scene to show
 	 */
 	public void setScene(Scene scene) {
+		scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
 		stage.setScene(scene);
 	}
 	
@@ -89,9 +110,9 @@ public class GameApp extends Application {
 	
 	public void setGame(Game game) {
 		this.game = game;
-		this.game.addObserver(gameView.getHandView());
+		this.game.addObserver(gameView.getHandPane());
 //		game.addObserver(playedCardsView);
-		this.game.addObserver(gameView.getBoardView());
+		this.game.addObserver(gameView.getBoardPane());
 		this.game.addObserver(gameView.getScorePane());
 	}
 	
@@ -120,7 +141,7 @@ public class GameApp extends Application {
 	}
 	
 	public void setHandView(Player player) {
-		handView = new HandView(player);
+		handView = new HandPane(player);
 	}
 
 	public void showHandView() {

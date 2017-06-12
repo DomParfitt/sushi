@@ -10,7 +10,14 @@ import javafx.scene.layout.VBox;
 public class MainMenuView extends VBox {
 
 	public MainMenuView(GameApp app) {
-		getChildren().add(new Label("Sushi Go"));
+		getStyleClass().clear();
+		getStyleClass().add("pane");
+		getStyleClass().add("main-menu-view");
+		
+		Label title = new Label("Sushi Go");
+		title.getStyleClass().clear();
+		title.getStyleClass().add("title-label");
+		getChildren().add(title);
 		
 		Button single = new Button("Single Player Game");
 		single.setOnAction(new EventHandler<ActionEvent>() {

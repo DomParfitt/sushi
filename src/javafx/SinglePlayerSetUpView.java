@@ -1,5 +1,6 @@
 package javafx;
 
+import ai.AIPlayer;
 import ai.RandomAIPlayer;
 import core.Game;
 import core.Player;
@@ -19,6 +20,9 @@ public class SinglePlayerSetUpView extends VBox {
 
 	public SinglePlayerSetUpView(GameApp app) {
 		this.app = app;
+		
+		getStyleClass().clear();
+		getStyleClass().add("single-player-setup-view");
 		newPlayerPane = new NewPlayerPane(app);
 		gameConfigPane = new GameConfigPane(app);
 		aiSetupPane = new AISetupPane(app);
@@ -38,7 +42,7 @@ public class SinglePlayerSetUpView extends VBox {
 					int numAI = aiSetupPane.getAINumber();
 					GameView gameView = new GameView(app, player);
 					app.setGameView(gameView);
-					player.addObserver(gameView.getHandView());
+					player.addObserver(gameView.getHandPane());
 					// app.setHandView(player);
 					Game game = new Game(numAI + 1);
 					game.setHandSize(gameConfigPane.getHandSize());
@@ -46,8 +50,9 @@ public class SinglePlayerSetUpView extends VBox {
 					app.setGame(game);
 					game.start();
 					game.addPlayer(player);
-					for (int i = 1; i <= numAI; i++) {
-						game.addPlayer(new RandomAIPlayer("CPU" + i));
+					
+					for(AIDetailsPane ai : aiSetupPane.getAIs()) {
+						game.addPlayer(ai.getAIPlayerObject());
 					}
 					app.setScene(new Scene(gameView, 200, 200));
 

@@ -11,6 +11,11 @@ public class NewPlayerPane extends GridPane {
 
 	public NewPlayerPane(GameApp app) {
 		this.app = app;
+		
+		getStyleClass().clear();
+		getStyleClass().add("pane");
+		getStyleClass().add("new-player-pane");
+		
 		nameField = new TextField();
 		add(new Label("Player Name"),0,0);
 		add(nameField,1,0);

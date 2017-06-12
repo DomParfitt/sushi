@@ -19,15 +19,19 @@ import javafx.scene.layout.HBox;
  * @author Dom Parfitt
  *
  */
-public class HandView extends HBox implements Observer {
+public class HandPane extends HBox implements Observer {
 
 	private List<Button> cards;
 	private Player player;
 	private HandController controller;
 
-	public HandView(Player player) {
+	public HandPane(Player player) {
 		this.player = player;
 		this.cards = new ArrayList<Button>();
+		
+		getStyleClass().clear();
+		getStyleClass().add("pane");
+		getStyleClass().add("hand-pane");
 		// this.controller = controller;
 	}
 
@@ -60,6 +64,8 @@ public class HandView extends HBox implements Observer {
 						} else {
 							button = new Button(card.getName());
 						}
+						button.getStyleClass().add("card-button");
+						button.getStyleClass().add(card.getType().toString().toLowerCase());
 						button.setDisable(true);
 						// controller.addAction(button, player, card);
 						button.setOnAction(new EventHandler<ActionEvent>() {

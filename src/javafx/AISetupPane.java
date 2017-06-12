@@ -20,6 +20,9 @@ public class AISetupPane extends GridPane {
 		this.app = app;
 		this.ais = new ArrayList<>();
 		
+		getStyleClass().clear();
+		getStyleClass().add("pane");
+		
 		spinner = new Spinner<Integer>();
 		spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 4));
 		
@@ -42,9 +45,10 @@ public class AISetupPane extends GridPane {
 	}
 	
 	private void addAI(Button button) {
-		AIDetailsPane aiDetails = new AIDetailsPane("CPU" + (ais.size() + 1));
+		AIDetailsPane aiDetails = new AIDetailsPane(this, "CPU" + (ais.size() + 1));
 		ais.add(aiDetails);
 		add(aiDetails, 0, ais.size());
+		
 		if(ais.size() >= 4) {
 			button.setDisable(true);
 		}
@@ -57,5 +61,10 @@ public class AISetupPane extends GridPane {
 	
 	public List<AIDetailsPane> getAIs() {
 		return this.ais;
+	}
+	
+	public void removeAI(AIDetailsPane aiDetailsPane) {
+		this.ais.remove(aiDetailsPane);
+		getChildren().remove(aiDetailsPane);
 	}
 }
