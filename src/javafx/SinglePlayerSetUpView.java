@@ -13,12 +13,14 @@ public class SinglePlayerSetUpView extends VBox {
 
 	private GameApp app;
 	private NewPlayerPane newPlayerPane;
+	private GameConfigPane gameConfigPane;
 	private AISetupPane aiSetupPane;
 	private Button startButton;
 
 	public SinglePlayerSetUpView(GameApp app) {
 		this.app = app;
 		newPlayerPane = new NewPlayerPane(app);
+		gameConfigPane = new GameConfigPane(app);
 		aiSetupPane = new AISetupPane(app);
 		startButton = new Button("Start Game");
 
@@ -39,6 +41,8 @@ public class SinglePlayerSetUpView extends VBox {
 					player.addObserver(gameView.getHandView());
 					// app.setHandView(player);
 					Game game = new Game(numAI + 1);
+					game.setHandSize(gameConfigPane.getHandSize());
+					game.setNumberOfRounds(gameConfigPane.getNumberOfRounds());
 					app.setGame(game);
 					game.start();
 					game.addPlayer(player);
@@ -54,6 +58,7 @@ public class SinglePlayerSetUpView extends VBox {
 
 		// Add elements
 		getChildren().add(newPlayerPane);
+		getChildren().add(gameConfigPane);
 		getChildren().add(aiSetupPane);
 		getChildren().add(startButton);
 	}

@@ -6,12 +6,10 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Scanner;
 import java.util.TreeMap;
-import java.util.concurrent.Future;
 
 import cardPools.CardPool;
 import cardPools.StandardCardPool;
 import cards.Card;
-import server.PlayerAction;
 
 /**
  * Class to represent the core game
@@ -24,7 +22,6 @@ public class Game extends Observable {
 	private ArrayList<Player> players;
 //	private ArrayList<CardRequester> threads;
 	private TreeMap<Player, Card> played;
-	private ArrayList<Future<PlayerAction>> actions;
 	private Deck deck;
 	private Deck discard;
 	private int handSize;
@@ -42,11 +39,11 @@ public class Game extends Observable {
 		this.players = new ArrayList<Player>();
 //		this.threads = new ArrayList<>();
 		this.played = new TreeMap<>();
-		this.actions = new ArrayList<Future<PlayerAction>>();
-		this.handSize = 3;
+		this.handSize = 9;
 		this.rounds = 3;
 		this.maxPlayers = maxPlayers;
 	}
+	
 
 	/**
 	 * Adds a player to the game
@@ -64,11 +61,17 @@ public class Game extends Observable {
 		notifyObservers();
 	}
 	
+	/**
+	 * Adds a card to the played cards pool
+	 * @param player the player who has played the card
+	 * @param card the card played
+	 */
 	public synchronized void addPlayedCard(Player player, Card card) {
 		played.put(player, card);
 		notifyAll();
 	}
 	
+	@Deprecated
 	public synchronized Map<Player, Card> getPlayedCards() {
 		while (played.size() < maxPlayers) {
 			try {
@@ -86,6 +89,10 @@ public class Game extends Observable {
 		return played;
 	}
 	
+	/**
+	 * Method for the game to request each player play a card and then wait
+	 * until they have all done so
+	 */
 	public synchronized void requestCards() {
 		//For some reason it doesn't like this
 //		for(CardRequester requester : threads) {
@@ -152,8 +159,32 @@ public class Game extends Observable {
 		}
 	}
 	
+	/**
+	 * Get the maximum number of players for the game
+	 * @return the max players
+	 */
 	public int getMaxPlayers() {
 		return this.maxPlayers;
+	}
+	
+	public void setMaxPlayers(int maxPlayers) {
+		this.maxPlayers = maxPlayers;
+	}
+	
+	public int getHandSize() {
+		return this.handSize;
+	}
+	
+	public void setHandSize(int handSize) {
+		this.handSize = handSize;
+	}
+	
+	public int getNumberOfRounds() {
+		return this.rounds;
+	}
+	
+	public void setNumberOfRounds(int rounds) {
+		this.rounds = rounds;
 	}
 
 	/**
@@ -217,7 +248,7 @@ public class Game extends Observable {
 	/**
 	 * Adds all the played cards of the Players provided to the
 	 * discard pile
-//	 * @param players a list of players
+	 * @param players a list of players
 	 */
 	private void discardPlayedCards(List<Player> players) {
 		for (Player player : players) {
@@ -301,6 +332,10 @@ public class Game extends Observable {
 		in.close();
 	}
 	
+	/**
+	 * Public method to start the game. Creates a new thread
+	 * which handles the actual starting and running of the game
+	 */
 	public synchronized void start() {
 		GameThread thread = new GameThread(this);
 		thread.start();
