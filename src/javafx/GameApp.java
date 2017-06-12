@@ -92,6 +92,7 @@ public class GameApp extends Application {
 		this.game.addObserver(gameView.getHandView());
 //		game.addObserver(playedCardsView);
 		this.game.addObserver(gameView.getBoardView());
+		this.game.addObserver(gameView.getScorePane());
 	}
 	
 	public MainMenuView getMainMenuView() {
