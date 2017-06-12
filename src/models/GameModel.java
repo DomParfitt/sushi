@@ -9,21 +9,44 @@ import core.Game;
 import core.Player;
 import server.GameState;
 
+/**
+ * Observable model of the Game object
+ * @author Dom Parfitt
+ *
+ */
 public class GameModel extends Observable {
 
 	private Game game;
 	
+	/**
+	 * Initialise the model with a new Game with a set number of
+	 * players
+	 * @param maxPlayers
+	 */
 	public GameModel(int maxPlayers) {
 		this.game = new Game(maxPlayers);
 	}
 	
+	/**
+	 * Initialise a model with an existing Game object
+	 * @param game
+	 */
 	public GameModel(Game game) {
 		this.game = game;
 	}
 	
-	//TODO: Not sure yet if this will need to be where the synch is
-	public synchronized void addPlayer(Player player) {
+	/**
+	 * Add a new player to the game
+	 * @param player the player to add
+	 */
+	public void addPlayer(Player player) {
 		game.addPlayer(player);
+		setChanged();
+		notifyObservers();
+	}
+	
+	public void start() {
+		game.start();
 		setChanged();
 		notifyObservers();
 	}
