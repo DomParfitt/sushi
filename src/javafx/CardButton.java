@@ -12,7 +12,7 @@ public class CardButton extends Button {
 	
 	public CardButton() {
 		this.isShowing = true;
-		this.setPrefSize(125, 200);
+//		this.setPrefSize(125, 200);
 //		this.setText("FRONT");
 //		this.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("tempura.jpg"))));
 	}
