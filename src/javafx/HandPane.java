@@ -29,12 +29,15 @@ public class HandPane extends ScrollPane implements Observer {
 
 	public HandPane(Player player) {
 		this.player = player;
-		this.hbox = new HBox();
 		this.cards = new ArrayList<Button>();
+		this.hbox = new HBox();
+		hbox.getStyleClass().add("hand-pane");
+
 		setContent(hbox);
+		setFitToHeight(true);
+
 		getStyleClass().clear();
 		getStyleClass().add("pane");
-		getStyleClass().add("hand-pane");
 		// this.controller = controller;
 	}
 
@@ -48,21 +51,21 @@ public class HandPane extends ScrollPane implements Observer {
 
 	@Override
 	public void update(Observable obs, Object arg1) {
-//		System.out.println("HandView update called");
+		// System.out.println("HandView update called");
 
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-//				System.out.println("Updating HandView");
+				// System.out.println("Updating HandView");
 				if (obs.getClass().equals(Game.class)) {
-//					System.out.println("Update from Game");
+					// System.out.println("Update from Game");
 					// TODO Auto-generated method stub
 					List<Card> hand = ((Game) obs).getHand(player);
 					hbox.getChildren().clear();
 					cards.clear();
 					for (Card card : hand) {
 						Button button;
-						if(card.getName() == "Maki Roll") {
+						if (card.getName() == "Maki Roll" || card.getName() == "Nigiri") {
 							button = new Button(card.getName() + " (" + card.getValue() + ")");
 						} else {
 							button = new Button(card.getName());
@@ -84,7 +87,7 @@ public class HandPane extends ScrollPane implements Observer {
 						hbox.getChildren().add(button);
 					}
 				} else {
-//					System.out.println("Update from Player");
+					// System.out.println("Update from Player");
 					for (Node node : hbox.getChildren()) {
 						Button button = (Button) node;
 						button.setDisable(false);
