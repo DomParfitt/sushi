@@ -136,6 +136,7 @@ public class Game extends Observable {
 	 * @param player the player to get the hand of
 	 * @return an ArrayList of Cards representing the player's hand
 	 */
+	//TODO: Check if this is necessary, could easily allow AI to 'cheat'
 	public ArrayList<Card> getHand(Player player) {
 		int index = players.indexOf(player);
 		if(index >= 0) {
