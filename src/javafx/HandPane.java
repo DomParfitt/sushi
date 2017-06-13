@@ -13,22 +13,25 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 
 /**
  * @author Dom Parfitt
  *
  */
-public class HandPane extends HBox implements Observer {
+public class HandPane extends ScrollPane implements Observer {
 
 	private List<Button> cards;
 	private Player player;
+	private HBox hbox;
 	private HandController controller;
 
 	public HandPane(Player player) {
 		this.player = player;
+		this.hbox = new HBox();
 		this.cards = new ArrayList<Button>();
-		
+		setContent(hbox);
 		getStyleClass().clear();
 		getStyleClass().add("pane");
 		getStyleClass().add("hand-pane");
@@ -55,7 +58,7 @@ public class HandPane extends HBox implements Observer {
 //					System.out.println("Update from Game");
 					// TODO Auto-generated method stub
 					List<Card> hand = ((Game) obs).getHand(player);
-					getChildren().clear();
+					hbox.getChildren().clear();
 					cards.clear();
 					for (Card card : hand) {
 						Button button;
@@ -78,11 +81,11 @@ public class HandPane extends HBox implements Observer {
 
 						});
 						cards.add(button);
-						getChildren().add(button);
+						hbox.getChildren().add(button);
 					}
 				} else {
 //					System.out.println("Update from Player");
-					for (Node node : getChildren()) {
+					for (Node node : hbox.getChildren()) {
 						Button button = (Button) node;
 						button.setDisable(false);
 					}
