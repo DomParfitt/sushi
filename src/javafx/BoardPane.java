@@ -8,6 +8,7 @@ import cards.Card;
 import core.Game;
 import core.Player;
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 /**
@@ -18,7 +19,7 @@ import javafx.scene.layout.VBox;
  *
  */
 public class BoardPane extends VBox implements Observer {
-
+	
 	public BoardPane() {
 
 	}

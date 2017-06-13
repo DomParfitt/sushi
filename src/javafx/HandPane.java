@@ -31,7 +31,7 @@ public class HandPane extends ScrollPane implements Observer {
 		this.player = player;
 		this.cards = new ArrayList<Button>();
 		this.hbox = new HBox();
-		hbox.getStyleClass().add("hand-pane");
+		hbox.getStyleClass().add("card-pane");
 
 		setContent(hbox);
 		setFitToHeight(true);
@@ -64,14 +64,15 @@ public class HandPane extends ScrollPane implements Observer {
 					hbox.getChildren().clear();
 					cards.clear();
 					for (Card card : hand) {
-						Button button;
-						if (card.getName() == "Maki Roll" || card.getName() == "Nigiri") {
-							button = new Button(card.getName() + " (" + card.getValue() + ")");
-						} else {
-							button = new Button(card.getName());
-						}
-						button.getStyleClass().add("card-button");
-						button.getStyleClass().add(card.getType().toString().toLowerCase());
+//						Button button;
+//						if (card.getName() == "Maki Roll" || card.getName() == "Nigiri") {
+//							button = new Button(card.getName() + " (" + card.getValue() + ")");
+//						} else {
+//							button = new Button(card.getName());
+//						}
+//						button.getStyleClass().add("card-button");
+//						button.getStyleClass().add(card.getType().toString().toLowerCase());
+						CardButton button = new CardButton(card);
 						button.setDisable(true);
 						// controller.addAction(button, player, card);
 						button.setOnAction(new EventHandler<ActionEvent>() {

@@ -15,20 +15,24 @@
 	-fx-padding: 10.0px;
 }
 
-.hand-pane {
-	-fx-spacing: 15px;
+.card-pane {
+	-fx-spacing: 20px;
 	-fx-pref-height: 275px;
 }
 
 .card-button {
-	-fx-text-fill: transparent; 
 	/*
+	-fx-text-fill: transparent; 
 	-fx-pref-height: 255px;
 	-fx-pref-width: 160px;
 	
-	*/
+	
 	-fx-pref-height: 232px;
 	-fx-pref-width: 145px;
+	*
+	*/
+	-fx-pref-height: 200px;
+	-fx-pref-width: 125px;
 	-fx-background-position: center;
 	-fx-background-position: 90%;
 	-fx-background-repeat: no-repeat;
