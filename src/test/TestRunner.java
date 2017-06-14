@@ -14,33 +14,47 @@ import cards.Wasabi;
 public class TestRunner {
 
 	public static void main(String[] args) {
-		ArrayList<Card> cards = new ArrayList<>();
-		cards.add(new Wasabi());
-		cards.add(new MakiRoll(1));
-		cards.add(new MakiRoll(2));
-		cards.add(new MakiRoll(3));
+		ArrayList<Integer> first = new ArrayList<>();
+		first.add(1);
+		first.add(2);
+		first.add(3);
 		
-//		CardTree tree = new CardTree(cards);
-//		tree.print();
-//		
-//		List<Card> newCards = new ArrayList<>();
-//		newCards.add(new Sashimi());
-//		newCards.add(new Tempura());
-//		newCards.add(new Chopsticks());
-//		
-//		
-//		
-//		CardTree tree2 = new CardTree(newCards);
-//		
-//		System.out.println("Added branches");
-//		tree.addBranch(tree2);
-//		tree.print();
+		ArrayList<Integer> second = new ArrayList<>();
 		
-		List<CardTree> trees = CardTree.getTreeList(cards);
-		for(CardTree tree: trees) {
-			tree.print();
-			System.out.println();
-		}
+		second = first;
+		
+		first = new ArrayList<>();
+		first.add(4);
+		
+		System.out.println(second);
+		
+//		ArrayList<Card> cards = new ArrayList<>();
+//		cards.add(new Wasabi());
+//		cards.add(new MakiRoll(1));
+//		cards.add(new MakiRoll(2));
+//		cards.add(new MakiRoll(3));
+//		
+////		CardTree tree = new CardTree(cards);
+////		tree.print();
+////		
+////		List<Card> newCards = new ArrayList<>();
+////		newCards.add(new Sashimi());
+////		newCards.add(new Tempura());
+////		newCards.add(new Chopsticks());
+////		
+////		
+////		
+////		CardTree tree2 = new CardTree(newCards);
+////		
+////		System.out.println("Added branches");
+////		tree.addBranch(tree2);
+////		tree.print();
+//		
+//		List<CardTree> trees = CardTree.getTreeList(cards);
+//		for(CardTree tree: trees) {
+//			tree.print();
+//			System.out.println();
+//		}
 		
 	}
 	
