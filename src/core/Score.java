@@ -35,7 +35,7 @@ public class Score {
 	 * @param puddingCount
 	 *            count of puddings
 	 */
-	private Score(int score, int puddingCount, int makiScore) {
+	public Score(int score, int puddingCount, int makiScore) {
 		this.score = score;
 		this.puddingCount = puddingCount;
 		this.makiScore = makiScore;
@@ -75,11 +75,12 @@ public class Score {
 		return new Score(newScore, newPuddingCount, other.getMakiScore());
 	}
 
-	
 	/**
-	 * Calculates the individual components of a Score object from a list
-	 * of cards
-	 * @param cards the list of cards
+	 * Calculates the individual components of a Score object from a list of
+	 * cards
+	 * 
+	 * @param cards
+	 *            the list of cards
 	 * @return a Score object
 	 */
 	public static Score getScore(ArrayList<Card> cards) {
@@ -132,94 +133,141 @@ public class Score {
 
 		return new Score(score, puddingCount, makiScore);
 	}
-	
+
 	// TODO: Test this thoroughly
-	// TODO: Allow handling of ties
-	// TODO: Allow single winner (i.e. no second highest)
 	/**
-	 * Assigns the bonuses to the players with the most and 
-	 * second most maki rolls
-	 * @param players a list of players
-	 * @return the same list of players with each player's score
-	 * updated to reflect the assigned bonuses
+	 * Assigns the bonuses to the players with the most and second most maki
+	 * rolls
+	 * 
+	 * @param players
+	 *            a list of players
+	 * @return the same list of players with each player's score updated to
+	 *         reflect the assigned bonuses
 	 */
 	public static ArrayList<Player> addMakis(ArrayList<Player> players) {
-
+		// TODO: Allow handling of ties
 		int highIndex = 0;
+		ArrayList<Integer> highIndices = new ArrayList<Integer>();
 		int highScore = 0;
 		int secondIndex = 0;
+		ArrayList<Integer> secondIndices = new ArrayList<Integer>();
 		int secondScore = 0;
 
 		for (int i = 0; i < players.size(); i++) {
 			int score = players.get(i).getScore().getMakiScore();
 			if (score > highScore) {
 				// Set the second highest to the current max
+				secondIndices = highIndices;
 				secondIndex = highIndex;
 				secondScore = highScore;
 
 				// Set the highest to the new one
+				highIndices = new ArrayList<Integer>();
+				highIndices.add(i);
 				highIndex = i;
 				highScore = score;
+			} else if (score == highScore) {
+				highIndices.add(i);
 			} else if (score > secondScore) {
 				// Set the second highest to the new one
+				secondIndices = new ArrayList<Integer>();
+				secondIndices.add(i);
 				secondIndex = i;
 				secondScore = score;
+			} else if (score == secondScore) {
+				secondIndices.add(i);
 			}
 		}
 
-		players.get(highIndex).updateScore(new Score(6, 0, 0));
-		players.get(secondIndex).updateScore(new Score(3, 0, 0));
-		
-		System.out.println(players.get(highIndex) + " scored +6 for most Makis with " + highScore);
-		System.out.println(players.get(secondIndex) + " scored +3 for second most Makis with " + secondScore);
-		
+		// Only give bonuses if counts are greater than 0
+		if (highScore > 0) {
+			int highCount = highIndices.size();
+			int highPoints = 6 / highCount;
+			for (Integer index : highIndices) {
+				// players.get(highIndex).updateScore(new Score(6, 0, 0));
+				players.get(index).updateScore(new Score(highPoints, 0, 0));
+				System.out.println(players.get(index) + " scored +" + highPoints + " for most Makis with " + highScore);
+
+			}
+
+			if (secondScore > 0) {
+				int secoundCount = secondIndices.size();
+				int secondPoints = 3 / secoundCount;
+				for (Integer index : secondIndices) {
+//					players.get(secondIndex).updateScore(new Score(3, 0, 0));
+					players.get(index).updateScore(new Score(secondPoints, 0, 0));
+					System.out.println(players.get(index) + " scored +" + secondPoints + " for second most Makis with " + secondScore);
+				}
+			}
+		}
+
 		return players;
 
 	}
 
 	/**
-	 * Static method to calculate the bonus and reduction for the most
-	 * and least puddings
-	 * @param players the list of players to calculate the bonus and 
-	 * forfeit for
-	 * @return the same list of players with the scores updated to
-	 * reflect the assigned bonus/forfeit
+	 * Static method to calculate the bonus and reduction for the most and least
+	 * puddings
+	 * 
+	 * @param players
+	 *            the list of players to calculate the bonus and forfeit for
+	 * @return the same list of players with the scores updated to reflect the
+	 *         assigned bonus/forfeit
 	 */
 	public static ArrayList<Player> addPuddings(ArrayList<Player> players) {
 		int highIndex = 0;
+		ArrayList<Integer> highIndices = new ArrayList<>();
 		int highCount = 0;
 		int lowIndex = 0;
+		ArrayList<Integer> lowIndices = new ArrayList<>();
 		int lowCount = Integer.MAX_VALUE;
 
 		for (int i = 0; i < players.size(); i++) {
 			int puddingCount = players.get(i).getScore().getPuddingCount();
 			if (puddingCount > highCount) {
 				highCount = puddingCount;
+				highIndices = new ArrayList<>();
+				highIndices.add(i);
 				highIndex = i;
+			} else if(puddingCount == highCount) {
+				highIndices.add(i);
 			} else if (puddingCount < lowCount) {
 				lowCount = puddingCount;
+				lowIndices = new ArrayList<>();
+				lowIndices.add(i);
 				lowIndex = i;
+			} else if (puddingCount == lowCount) {
+				lowIndices.add(i);
 			}
 		}
 
-		//Only give a bonus if someone has puddings
+		// Only give a bonus/forfeit if someone has puddings
 		if (highCount > 0) {
-			players.get(highIndex).updateScore(new Score(6, 0, 0));
-			System.out.println(players.get(highIndex) + " scored +6 for most Puddings with " + highCount);
-		}
-		
-		players.get(lowIndex).updateScore(new Score(-6, 0, 0));
-		System.out.println(players.get(lowIndex) + " scored -6 for least Puddings with " + lowCount);
+			int highPoints = 6 / highIndices.size();
+			for(Integer index : highIndices) {
+				players.get(index).updateScore(new Score(highPoints, 0, 0));
+				System.out.println(players.get(index) + " scored +" + highPoints + " for most Puddings with " + highCount);
+				
+			}
+			
+			int lowPoints = -1 * (6 / lowIndices.size());
+			for(Integer index : lowIndices) {
+				
+				players.get(index).updateScore(new Score(lowPoints, 0, 0));
+				System.out.println(players.get(index) + " scored -" + lowPoints + " for least Puddings with " + lowCount);
+			}
 
+		}
 		return players;
-		
+
 	}
-	
+
 	/**
 	 * Updates the scores for a list of players
-	 * @param players the list of players
-	 * @return the same list of players with their scores
-	 * updated
+	 * 
+	 * @param players
+	 *            the list of players
+	 * @return the same list of players with their scores updated
 	 */
 	public static ArrayList<Player> getScores(ArrayList<Player> players) {
 		for (Player player : players) {
@@ -228,33 +276,37 @@ public class Score {
 			player.updateScore(newScore);
 			System.out.println(player + " scored " + newScore.getNumScore() + " from Nigiris, Tempuras and Sashimis");
 		}
-		
+
 		return players;
 	}
-	
+
 	/**
-	 * Gets the score at the end of the round, i.e. the numerical
-	 * score with the maki bonus assigned
-	 * @param players the list of players
+	 * Gets the score at the end of the round, i.e. the numerical score with the
+	 * maki bonus assigned
+	 * 
+	 * @param players
+	 *            the list of players
 	 * @return the same list of players with their scores updated
 	 */
 	public static ArrayList<Player> getRoundScore(ArrayList<Player> players) {
 		players = getScores(players);
 		return addMakis(players);
-		
+
 	}
-	
+
 	/**
 	 * Prints the scores to the console
-	 * @param players the list of players
+	 * 
+	 * @param players
+	 *            the list of players
 	 */
 	public static void showScores(ArrayList<Player> players) {
-		for(int i = 0; i < players.size(); i++) {
+		for (int i = 0; i < players.size(); i++) {
 			System.out.println(players.get(i));
 			players.get(i).showPlayed();
 			System.out.println(players.get(i).getScore().getNumScore());
-			
+
 		}
 	}
-	
+
 }
