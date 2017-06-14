@@ -10,6 +10,7 @@ import org.junit.Test;
 import cards.Card;
 import cards.Dumpling;
 import cards.Nigiri;
+import cards.Sashimi;
 import cards.Tempura;
 import cards.Wasabi;
 import core.Player;
@@ -95,7 +96,45 @@ public class ScoreTests {
 		hand.add(new Tempura());
 		assertEquals(5*2, Score.getScore(hand).getNumScore());
 	}
-
+	
+	/*
+	 * SASHIMI
+	 */
+	@Test
+	public void sashimiTwo() {
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		assertEquals(0, Score.getScore(hand).getNumScore());
+	}
+	
+	@Test
+	public void sashimiThree() {
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		assertEquals(10, Score.getScore(hand).getNumScore());
+	}
+	
+	@Test
+	public void sashimiFour() {
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		assertEquals(10, Score.getScore(hand).getNumScore());
+	}
+	
+	@Test
+	public void sashimiSix() {
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		hand.add(new Sashimi());
+		assertEquals(10 * 2, Score.getScore(hand).getNumScore());
+	}
+	
 	/*
 	 * WASABI
 	 */
