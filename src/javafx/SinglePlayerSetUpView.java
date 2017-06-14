@@ -1,15 +1,20 @@
 package javafx;
 
-import ai.AIPlayer;
-import ai.RandomAIPlayer;
 import core.Game;
 import core.Player;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
+/**
+ * View for setting up a single player game
+ * @author Dom Parfitt
+ *
+ */
 public class SinglePlayerSetUpView extends VBox {
 
 	private GameApp app;
@@ -34,8 +39,11 @@ public class SinglePlayerSetUpView extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				String playerName = newPlayerPane.getPlayerName();
-				if (playerName == "") {
-					// show an error window
+				if (playerName.equals("")) {
+					//TODO: Make sure closing alert works
+					Alert alert = new Alert(AlertType.NONE);
+					alert.setContentText("Please enter a name");
+					alert.show();
 				} else {
 					// TODO: This seems unclean
 					Player player = new Player(playerName);

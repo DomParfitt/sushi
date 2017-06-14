@@ -9,6 +9,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * Main "runner" class for the JavaFX GUI
+ * @author Dom Parfitt
+ *
+ */
 public class GameApp extends Application {
 	
 	public static final int WIDTH = 500;
@@ -41,41 +46,6 @@ public class GameApp extends Application {
 		
 		mainMenuView = new MainMenuView(this);
 		singlePlayerSetupView = new SinglePlayerSetUpView(this);
-		
-//		Player dom = new Player("Dom");
-		
-		//Create model
-//		game = new Game(2);
-//	
-//		game.addPlayer(dom);
-//		game.addPlayer(new RandomAIPlayer("CPU"));
-		
-		//Create views
-//		newPlayerView = new NewPlayerPane(this);
-//		StartView startView = new StartView(this);
-//		handView = new HandView(dom, new HandController(game));
-//		boardView = new BoardView();
-		
-//		playedCardsView = new PlayedCardsView(dom);
-		
-		//Add Observers to model - THIS NEEDS TO BE DONE BEFORE THE GAME IS STARTED
-//		game.addObserver(handView);
-//		dom.addObserver(handView);
-//		game.addObserver(playedCardsView);
-//		game.addObserver(boardView);
-		
-//		game.start();
-//		gameModel.deal();
-
-		//Add Controllers
-//		handView.addController(new HandController(gameModel));
-		
-//		Scene handScene = new Scene(handView);
-		
-//		Scene newPlayerScene = new Scene(boardView);
-//		newPlayerScene.getStylesheets().add(javafx.GameApp.class.getResource("stylesheet.css").toExternalForm());
-//		stage.setScene(newPlayerScene);
-//		showHandView();
 		
 		setScene(new Scene(mainMenuView));
 		
