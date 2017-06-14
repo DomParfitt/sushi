@@ -36,7 +36,7 @@ public class MainMenuView extends VBox {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+				// TODO: Create multiplayer setup views
 				
 			}
 		});

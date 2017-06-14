@@ -200,7 +200,6 @@ public class Player extends Observable implements Comparable<Player> {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

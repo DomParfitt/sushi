@@ -59,7 +59,6 @@ public class HandPane extends ScrollPane implements Observer {
 				// System.out.println("Updating HandView");
 				if (obs.getClass().equals(Game.class)) {
 					// System.out.println("Update from Game");
-					// TODO Auto-generated method stub
 					List<Card> hand = ((Game) obs).getHand(player);
 					hbox.getChildren().clear();
 					cards.clear();

@@ -28,7 +28,6 @@ public class PlayedCardsView extends HBox implements Observer {
 
 	@Override
 	public void update(Observable obs, Object arg1) {
-		// TODO Auto-generated method stub
 		Platform.runLater(new Runnable() {
 
 			@Override

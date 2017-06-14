@@ -83,7 +83,6 @@ public class GameApp extends Application {
 
 			@Override
 			public void handle(WindowEvent arg0) {
-				// TODO Auto-generated method stub
 				Platform.exit();
 				System.exit(0);
 			}

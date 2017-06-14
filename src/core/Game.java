@@ -79,7 +79,6 @@ public class Game extends Observable {
 				System.out.println("[Game] Waiting until there are enough cards");
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -108,7 +107,6 @@ public class Game extends Observable {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
