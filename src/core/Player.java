@@ -22,9 +22,11 @@ public class Player extends Observable implements Comparable<Player> {
 	
 	//TODO: I think these can all be removed
 	private PlayerModel model;
-	private PlayerThread thread;
-	private ActionQueue actionQueue;
 	
+	/**
+	 * Initialise a Player object
+	 * @param name the player's chosen display name
+	 */
 	public Player(String name) {
 		//Give the player a unique ID
 		Player.NUMBEROFPLAYERS++;
@@ -36,17 +38,20 @@ public class Player extends Observable implements Comparable<Player> {
 		this.playedCards = new ArrayList<Card>();
 		this.hasCard = false;
 		this.model = new PlayerModel(this);
-		this.actionQueue = new ActionQueue();
-		this.thread = new PlayerThread(this);
 	}
 	
+	/**
+	 * Private constructor for creating a copy of a Player
+	 * @param name the name of the player
+	 * @param number the unique player number
+	 * @param playedCards the played cards
+	 * @param score the score
+	 */
 	private Player(String name, int number, ArrayList<Card> playedCards, Score score) {
 		this.name = name;
 		this.number = number;
 		this.playedCards = playedCards;
 		this.score = score;
-		this.actionQueue = new ActionQueue(); //TODO: Think about whether this needs to be copied across
-		this.thread = new PlayerThread(this);
 	}
 	
 	/**
@@ -64,6 +69,7 @@ public class Player extends Observable implements Comparable<Player> {
 	public String getName() {
 		return this.name;
 	}
+	
 	
 	public PlayerModel getModel() {
 		return this.model;
@@ -88,7 +94,7 @@ public class Player extends Observable implements Comparable<Player> {
 	
 	/**
 	 * Get the player's score object
-	 * @return
+	 * @return the Score object
 	 */
 	public Score getScore() {
 		return this.score;
@@ -96,7 +102,7 @@ public class Player extends Observable implements Comparable<Player> {
 	
 	/**
 	 * Update the player's score
-	 * @param newScore
+	 * @param newScore the score to be added
 	 */
 	public void updateScore(Score newScore) {
 		Score current = getScore();
@@ -120,16 +126,6 @@ public class Player extends Observable implements Comparable<Player> {
 	 */
 	public ArrayList<Card> getPlayedCards() {
 		return this.playedCards;
-	}
-	
-	@Deprecated
-	public ActionQueue getActionQueue() {
-		return this.actionQueue;
-	}
-	
-	@Deprecated
-	public PlayerThread getPlayerThread() {
-		return this.thread;
 	}
 	
 	/**

@@ -1,8 +1,6 @@
-package core;
+package server;
 
 import java.util.ArrayList;
-
-import server.PlayerAction;
 
 public class ActionQueue {
 

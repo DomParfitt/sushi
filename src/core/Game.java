@@ -99,10 +99,11 @@ public class Game extends Observable {
 //			requester.start();
 //		}
 		for (Player player : players) {
-			CardRequester requester = new CardRequester(this, player);
+			CardRequester requester = new CardRequester(this, player); //TODO: This is inefficient
 			requester.start();
 		}
 
+		//Block until all requests have returned
 		while (played.size() < maxPlayers) {
 			try {
 				wait();
@@ -117,6 +118,7 @@ public class Game extends Observable {
 	 * Gets a list of the current players in the game
 	 * @return
 	 */
+	//TODO: Does this expose too much?
 	public List<Player> getPlayers() {
 		return this.players;
 	}
@@ -126,6 +128,8 @@ public class Game extends Observable {
 	 * @param player the player object to retrieve
 	 * @return the player object
 	 */
+	//TODO: Does this expose too much?
+	@Deprecated
 	public Player getPlayer(Player player) {
 		int index = players.indexOf(player);
 		return players.get(index);
@@ -168,22 +172,42 @@ public class Game extends Observable {
 		return this.maxPlayers;
 	}
 	
+	/**
+	 * Sets the maximum number of players for the game
+	 * @param maxPlayers the maximum number of players
+	 */
 	public void setMaxPlayers(int maxPlayers) {
 		this.maxPlayers = maxPlayers;
 	}
 	
+	/**
+	 * Gets the starting hand size for the game
+	 * @return the hand size for the game
+	 */
 	public int getHandSize() {
 		return this.handSize;
 	}
 	
+	/**
+	 * Sets the starting hand size for the game
+	 * @param handSize the new starting hand size
+	 */
 	public void setHandSize(int handSize) {
 		this.handSize = handSize;
 	}
 	
+	/**
+	 * Gets the number of rounds
+	 * @return the number of rounds
+	 */
 	public int getNumberOfRounds() {
 		return this.rounds;
 	}
 	
+	/**
+	 * Sets the number of rounds
+	 * @param rounds the number of rounds
+	 */
 	public void setNumberOfRounds(int rounds) {
 		this.rounds = rounds;
 	}
@@ -195,6 +219,8 @@ public class Game extends Observable {
 	 * @return a Card object, the top card on the deck
 	 */
 	private Card dealCard() {
+		//TODO: Deck and discard pile are empty
+		
 		// If the deck is empty switch with the discard pile and clear it
 		if (this.deck.getDeckSize() <= 0) {
 			this.deck = this.discard;
@@ -221,6 +247,7 @@ public class Game extends Observable {
 	 * Rotates each player's hand around
 	 */
 	private void switchHands() {
+		//TODO: Could this be done with a request so that getHand could be potentially removed?
 		ArrayList<ArrayList<Card>> hands = new ArrayList<ArrayList<Card>>();
 		for (Player player : this.players) {
 			hands.add(player.getHand());
@@ -342,8 +369,13 @@ public class Game extends Observable {
 		thread.start();
 	}
 	
+	/**
+	 * Starts the game
+	 */
 	public synchronized void startGame() {
 		System.out.println("Game will start when enough players join");
+		
+		//Blocks until enough players have joined
 		while(players.size() != maxPlayers) {
 			try {
 				System.out.println(players.size() + " players have joined, waiting for " + (maxPlayers - players.size() + " more"));
@@ -354,18 +386,19 @@ public class Game extends Observable {
 		}
 		System.out.println("Starting game");
 		
+		//Plays each round
 		for(int round = 0; round < rounds; round++) {
 			deal();
 			
+			//Repeats until all held cards have been played
 			for(int i = 0; i < handSize; i++) {
-				requestCards(); //Blocks until all cards are in
+				
+				//Request cards from each player and block until they are all received
+				requestCards();
 				
 				//Update each player with their played card
 				for(Player player : played.keySet()) {
-//					System.out.println(player + " plays " + played.get(player));
 					player.playCard(played.get(player));
-//					System.out.println("Played cards are: ");
-//					player.showPlayed();
 				}
 				
 				//All cards are played so reset the Map
@@ -388,32 +421,4 @@ public class Game extends Observable {
 		
 	}
 	
-	public void playSingle() {
-		deal();
-		for (Player player : players) {
-			player.getPlayedCards();
-		}
-//		for (Player player : players){
-//			actions.add(executor.submit(player.getPlayerThread()));
-//		}
-//		
-//		for(Future<PlayerAction> action : actions) {
-//			try {
-//				PlayerAction playerAction = action.get();
-//				Player player = playerAction.getPlayer();
-//				Card card = playerAction.getCard();
-//				getPlayer(player).playCard(card);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (ExecutionException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-		
-		switchHands();
-	}
-	
-
 }

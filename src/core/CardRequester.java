@@ -1,42 +1,29 @@
 package core;
 
-import java.util.Map;
-
-import cards.Card;
-
+/**
+ * Thread to call the requestCard() method and then pass the result
+ * into the Game object's played card map
+ * @author Dom Parfitt
+ *
+ */
 public class CardRequester extends Thread {
 
 	private Game game;
 	private Player player;
-	private Card card;
-	private boolean hasCard;
 	
+	/**
+	 * Initialises a CardRequester for a particular player and
+	 * game
+	 * @param game the Game to pass the result to 
+	 * @param player the player to request the card from
+	 */
 	public CardRequester(Game game, Player player) {
 		this.game = game;
 		this.player = player;
-		this.hasCard = false;
 	}
-	
-//	public Card getCard() {
-//		while (!hasCard) {
-//			try {
-//				wait();
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		hasCard = false;
-//		//Could set card to null here but flag should cover it
-//		return card;
-//		
-//	}
 	
 	@Override
 	public void run() {
 		game.addPlayedCard(player, player.requestCard());
-//		card = player.requestCard();
-//		hasCard = true;
-//		notifyAll();
 	}
 }

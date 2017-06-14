@@ -7,7 +7,7 @@ import cards.Card;
 //TODO: Implement various scoring methods to work for collection of Players
 
 /**
- * Class for holding various elements which contribute to the final score
+ * Class for holding various elements which contribute to a player's final score
  * 
  * @author Dom Parfitt
  *
@@ -76,6 +76,12 @@ public class Score {
 	}
 
 	
+	/**
+	 * Calculates the individual components of a Score object from a list
+	 * of cards
+	 * @param cards the list of cards
+	 * @return a Score object
+	 */
 	public static Score getScore(ArrayList<Card> cards) {
 		int score = 0;
 		int makiScore = 0;
@@ -130,6 +136,13 @@ public class Score {
 	// TODO: Test this thoroughly
 	// TODO: Allow handling of ties
 	// TODO: Allow single winner (i.e. no second highest)
+	/**
+	 * Assigns the bonuses to the players with the most and 
+	 * second most maki rolls
+	 * @param players a list of players
+	 * @return the same list of players with each player's score
+	 * updated to reflect the assigned bonuses
+	 */
 	public static ArrayList<Player> addMakis(ArrayList<Player> players) {
 
 		int highIndex = 0;
@@ -167,8 +180,10 @@ public class Score {
 	/**
 	 * Static method to calculate the bonus and reduction for the most
 	 * and least puddings
-	 * @param scores
-	 * @return
+	 * @param players the list of players to calculate the bonus and 
+	 * forfeit for
+	 * @return the same list of players with the scores updated to
+	 * reflect the assigned bonus/forfeit
 	 */
 	public static ArrayList<Player> addPuddings(ArrayList<Player> players) {
 		int highIndex = 0;
@@ -200,6 +215,12 @@ public class Score {
 		
 	}
 	
+	/**
+	 * Updates the scores for a list of players
+	 * @param players the list of players
+	 * @return the same list of players with their scores
+	 * updated
+	 */
 	public static ArrayList<Player> getScores(ArrayList<Player> players) {
 		for (Player player : players) {
 			ArrayList<Card> playedCards = player.getPlayedCards();
@@ -211,12 +232,22 @@ public class Score {
 		return players;
 	}
 	
+	/**
+	 * Gets the score at the end of the round, i.e. the numerical
+	 * score with the maki bonus assigned
+	 * @param players the list of players
+	 * @return the same list of players with their scores updated
+	 */
 	public static ArrayList<Player> getRoundScore(ArrayList<Player> players) {
 		players = getScores(players);
 		return addMakis(players);
 		
 	}
 	
+	/**
+	 * Prints the scores to the console
+	 * @param players the list of players
+	 */
 	public static void showScores(ArrayList<Player> players) {
 		for(int i = 0; i < players.size(); i++) {
 			System.out.println(players.get(i));

@@ -74,7 +74,7 @@ public class GameModel extends Observable {
 	}
 	
 	public void play() {
-		this.game.playSingle();
+		this.game.play();
 	}
 	
 	public ArrayList<Card> getHand(Player player) {

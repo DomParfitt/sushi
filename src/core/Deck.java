@@ -13,16 +13,27 @@ import cards.Sashimi;
 import cards.Tempura;
 import cards.Wasabi;
 
+/**
+ * Class to represent a deck of cards
+ * @author Dom Parfitt
+ *
+ */
 public class Deck {
 
 	private int showCount = 0;
-
 	private ArrayList<Card> cards;
 
+	/**
+	 * Initialises an empty deck
+	 */
 	public Deck() {
 		this.cards = new ArrayList<Card>();
 	}
 
+	/**
+	 * Initialises a deck with the cards in the provided card pool
+	 * @param pool
+	 */
 	public Deck(CardPool pool) {
 		this();
 		for (Card.CARDTYPE cardType : pool.getPool().keySet()) {
@@ -62,14 +73,26 @@ public class Deck {
 
 	}
 
+	/**
+	 * Gets the cards in the deck
+	 * @return a List of Card objects
+	 */
 	public ArrayList<Card> getCards() {
 		return this.cards;
 	}
 
+	/**
+	 * Gets the size of the deck
+	 * @return the size of the deck
+	 */
 	public int getDeckSize() {
 		return getCards().size();
 	}
 
+	/**
+	 * Shuffle the deck so that the cards are now in a random
+	 * order
+	 */
 	public void shuffle() {
 		ArrayList<Card> shuffledDeck = new ArrayList<Card>();
 		Random rand = new Random();
@@ -85,6 +108,10 @@ public class Deck {
 	}
 
 	// TODO: Add end of deck exception
+	/**
+	 * Deals the top card from the deck
+	 * @return the top card of the deck
+	 */
 	public Card deal() {
 		return getCards().remove(0);
 	}
@@ -98,6 +125,10 @@ public class Deck {
 		return card;
 	}
 
+	/**
+	 * Inserts a card randomly into the deck
+	 * @param card the card to insert
+	 */
 	public void insert(Card card) {
 		if (getDeckSize() == 0) {
 			insertTop(card);
@@ -108,10 +139,18 @@ public class Deck {
 		}
 	}
 
+	/**
+	 * Puts the card at the bottom of the deck
+	 * @param card the card to add to the deck
+	 */
 	public void insertBottom(Card card) {
 		getCards().add(card);
 	}
 
+	/**
+	 * Puts the card on the top of the deck
+	 * @param card the card to add to the deck
+	 */
 	public void insertTop(Card card) {
 		getCards().add(0, card);
 	}
