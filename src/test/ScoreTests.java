@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import cards.Card;
+import cards.Dumpling;
+import cards.Nigiri;
+import cards.Tempura;
+import cards.Wasabi;
 import core.Player;
 import core.Score;
 
@@ -19,17 +24,132 @@ import core.Score;
 public class ScoreTests {
 
 	private ArrayList<Player> players;
+	private ArrayList<Card> hand;
 
 	@Before
 	public void setUp() throws Exception {
+		hand = new ArrayList<>();
 		players = new ArrayList<>();
 		for (int i = 1; i <= 4; i++) {
 			players.add(new Player("p" + i));
 		}
 	}
+	
+	/*
+	 * NIGIRI
+	 */
+	@Test
+	public void nigiri() {
+		for(int i = 1; i <= 3; i++) {
+			hand.add(new Nigiri(i));
+			assertEquals(i, Score.getScore(hand).getNumScore());
+			hand.clear();
+		}
+	}
+	
+	/*
+	 * DUMPLINGS
+	 */
+	@Test
+	public void dumpling() {
+		for (int i = 1; i <= 5; i++) {
+			int score = 0;
+			for(int j = 1; j <= i; j++) {
+				score += j;
+				hand.add(new Dumpling());
+			}
+			assertEquals(score, Score.getScore(hand).getNumScore());
+			hand.clear();
+		}
+	}
+	
+	/*
+	 * TEMPURA
+	 */
+	@Test
+	public void tempuraOne() {
+		hand.add(new Tempura());
+		assertEquals(0, Score.getScore(hand).getNumScore());
+	}
+
+	@Test
+	public void tempuraTwo() {
+		hand.add(new Tempura());
+		hand.add(new Tempura());
+		assertEquals(5, Score.getScore(hand).getNumScore());
+	}
+	
+	@Test
+	public void tempuraThree() {
+		hand.add(new Tempura());
+		hand.add(new Tempura());
+		hand.add(new Tempura());
+		assertEquals(5, Score.getScore(hand).getNumScore());
+	}
+	
+	@Test
+	public void tempuraFour() {
+		hand.add(new Tempura());
+		hand.add(new Tempura());
+		hand.add(new Tempura());
+		hand.add(new Tempura());
+		assertEquals(5*2, Score.getScore(hand).getNumScore());
+	}
 
 	/*
-	 * Testing various maki combinations
+	 * WASABI
+	 */
+	@Test
+	public void wasabiNoNigiri() {
+		hand.add(new Wasabi());
+		assertEquals(0, Score.getScore(hand).getNumScore());
+	}
+
+	@Test
+	public void wasabiBeforeNigiri() {
+		for (int i = 1; i <= 3; i++) {
+			hand.add(new Wasabi());
+			hand.add(new Nigiri(i));
+			assertEquals(i * 3, Score.getScore(hand).getNumScore());
+			hand.clear();
+		}
+	}
+
+	@Test
+	public void wasabiAfterNigiri() {
+		for (int i = 1; i <= 3; i++) {
+			hand.add(new Nigiri(i));
+			hand.add(new Wasabi());
+			assertEquals(i, Score.getScore(hand).getNumScore());
+			hand.clear();
+		}
+	}
+
+	@Test
+	public void wasabiTwoNigiri() {
+		for (int i = 1; i <= 3; i++) {
+			hand.add(new Wasabi());
+			hand.add(new Nigiri(i));
+			hand.add(new Nigiri(i));
+			assertEquals((i * 3) + i, Score.getScore(hand).getNumScore());
+			hand.clear();
+		}
+	}
+
+	@Test
+	public void wasabiNigiriTwice() {
+		for (int i = 1; i <= 3; i++) {
+			hand.add(new Wasabi());
+			hand.add(new Nigiri(i));
+			hand.add(new Wasabi());
+			hand.add(new Nigiri(i));
+			assertEquals((i * 3) * 2, Score.getScore(hand).getNumScore());
+			hand.clear();
+		}
+	}
+
+	/*
+	 * MAKIS
 	 */
 	@Test
 	public void makiNone() {
@@ -72,7 +192,7 @@ public class ScoreTests {
 			}
 		}
 	}
-	
+
 	@Test
 	public void makiSingleHighMultiSecond() {
 		players.get(0).updateScore(new Score(0, 0, 3));
@@ -105,8 +225,7 @@ public class ScoreTests {
 			}
 		}
 	}
-	
-	
+
 	@Test
 	public void makiMultiHighSingleSecond() {
 		players.get(0).updateScore(new Score(0, 0, 3));
@@ -122,7 +241,7 @@ public class ScoreTests {
 			}
 		}
 	}
-	
+
 	@Test
 	public void makiMultiHighMultiecond() {
 		players.get(0).updateScore(new Score(0, 0, 3));
@@ -139,9 +258,9 @@ public class ScoreTests {
 			}
 		}
 	}
-	
+
 	/*
-	 * Testing various pudding combinations 
+	 * PUDDINGS
 	 */
 	@Test
 	public void puddingNone() {
@@ -153,7 +272,7 @@ public class ScoreTests {
 			assertEquals(0, player.getScore().getNumScore());
 		}
 	}
-	
+
 	@Test
 	public void puddingSingleHighMultiLow() {
 		players.get(0).updateScore(new Score(0, 3, 0));
@@ -201,7 +320,7 @@ public class ScoreTests {
 			}
 		}
 	}
-	
+
 	@Test
 	public void puddingMultiHighSingleLow() {
 		players.get(0).updateScore(new Score(0, 3, 0));

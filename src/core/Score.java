@@ -89,8 +89,10 @@ public class Score {
 		int tempuraCount = 0;
 		int sashimiCount = 0;
 		int puddingCount = 0;
+		int dumplingCount = 0;
 		boolean wasabiFlag = false;
 
+		//TODO: ADD DUMPLINGS
 		// Handle each individual card
 		for (Card card : cards) {
 			switch (card.getType()) {
@@ -119,6 +121,9 @@ public class Score {
 			case WASABI:
 				wasabiFlag = true;
 				break;
+			case DUMPLING:
+				dumplingCount++;
+				break;
 			default:
 				break;
 			}
@@ -130,6 +135,11 @@ public class Score {
 
 		// Check for sashimi triples
 		score += ((sashimiCount / 3) * 10);
+		
+		//Add dumplings
+		for(int i = 1; i <= dumplingCount; i++) {
+			score += i;
+		}
 
 		return new Score(score, puddingCount, makiScore);
 	}
