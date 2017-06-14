@@ -11,7 +11,7 @@ public abstract class Card {
 	 * Enum of the different types of cards
 	 */
 	public static enum CARDTYPE {
-		NIGIRI, WASABI, SASHIMI, TEMPURA, MAKI, CHOPSTICKS, PUDDING
+		NIGIRI, WASABI, SASHIMI, TEMPURA, MAKI, CHOPSTICKS, PUDDING, DUMPLING
 	};
 	
 	protected String name = "";
