@@ -6,6 +6,7 @@ import java.util.Random;
 import cardPools.CardPool;
 import cards.Card;
 import cards.Chopsticks;
+import cards.Dumpling;
 import cards.MakiRoll;
 import cards.Nigiri;
 import cards.Pudding;
@@ -64,6 +65,8 @@ public class Deck {
 				case WASABI:
 					this.cards.add(new Wasabi());
 					break;
+				case DUMPLING:
+					this.cards.add(new Dumpling());
 				default:
 					break;
 
