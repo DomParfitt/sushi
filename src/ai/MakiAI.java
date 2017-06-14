@@ -5,6 +5,12 @@ import java.util.Comparator;
 import cards.Card;
 import cards.Card.CARDTYPE;
 
+/**
+ * Concrete implementation of a ranking AI which places the most
+ * value of Maki Rolls
+ * @author Dom Parfitt
+ *
+ */
 public class MakiAI extends RankingAIPlayer {
 
 	public MakiAI(String name) {

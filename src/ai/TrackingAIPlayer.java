@@ -9,16 +9,27 @@ import core.Game;
 import core.Player;
 import core.Score;
 
+/**
+ * Implementation for an AI which tracks the game state and plays
+ * cards based on that.
+ * @author Dom Parfitt
+ *
+ */
+//TODO: Should this be an abstract base class with different strategies represented by subclasses?
 public class TrackingAIPlayer extends AIPlayer {
 
-	private Game game;
-	private List<List<Card>> allHands;
-	private List<List<Card>> allPlayed;
-	private List<Score> scores;
-	private boolean gameStarted;
-	private int handTracker;
+	protected Game game;
+	protected List<List<Card>> allHands;
+	protected List<List<Card>> allPlayed;
+	protected List<Score> scores;
+	protected boolean gameStarted;
+	protected int handTracker;
 	
-	
+	/**
+	 * Initialises the AI with a name and the game it belongs to
+	 * @param name the AI's name
+	 * @param game a Game object
+	 */
 	public TrackingAIPlayer(String name, Game game) {
 		super(name);
 		this.game = game;
@@ -75,7 +86,7 @@ public class TrackingAIPlayer extends AIPlayer {
 			});
 		}
 		
-		allHands.add(handTracker, game.getHand(this));
+		allHands.add(handTracker, getHand());
 		
 		handTracker++;
 		handTracker %= game.getPlayers().size();
