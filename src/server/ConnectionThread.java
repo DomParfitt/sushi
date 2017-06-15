@@ -90,9 +90,10 @@ public class ConnectionThread extends Thread {
 				// Look for the matching game on the server
 				for (Game availableGame : server.getGames()) {
 					if (availableGame.getGameID() == gameID) {
-						availableGame.addPlayer(player); //TODO: Handle player not being added due to too many players
-						newState = new GameState(player, availableGame);
-						response = new ServerMessage(ServerMessageType.JOIN_SUCCESS, newState);
+						if(availableGame.addPlayer(player)) {
+							newState = new GameState(player, availableGame);
+							response = new ServerMessage(ServerMessageType.JOIN_SUCCESS, newState);
+						}
 						break;
 					}
 				}

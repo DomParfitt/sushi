@@ -61,14 +61,17 @@ public class Game extends Observable {
 	 * @param player
 	 *            the player to add
 	 */
-	public synchronized void addPlayer(Player player) {
+	public synchronized boolean addPlayer(Player player) {
+		boolean successFlag = false;
 		if (players.size() < maxPlayers) {
 			this.players.add(player);
+			successFlag = true;
 //			this.threads.add(new CardRequester(this, player));
 			notifyAll();
 		}
 		setChanged();
 		notifyObservers();
+		return successFlag;
 	}
 	
 	/**
