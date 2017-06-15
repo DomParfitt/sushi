@@ -67,7 +67,7 @@ public class GameModel extends Observable {
 		
 	}
 	
-	public void updateGameState(GameState state) {
+	public void updateGameState(Game state) {
 		this.game = state.getGame();
 		setChanged();
 		notifyObservers();

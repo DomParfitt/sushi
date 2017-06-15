@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 public class ActionQueue {
 
-	private ArrayList<PlayerAction> queue;
+	private ArrayList<PlayerMessage> queue;
 	
 	public ActionQueue() {
-		this.queue = new ArrayList<PlayerAction>();
+		this.queue = new ArrayList<PlayerMessage>();
 	}
 	
-	public synchronized void enqueue(PlayerAction action) {
+	public synchronized void enqueue(PlayerMessage action) {
 		this.queue.add(action);
 		notifyAll();
 	}
 	
-	public synchronized PlayerAction dequeue() {
+	public synchronized PlayerMessage dequeue() {
 		while(queue.isEmpty()) {
 			try {
 				wait();
@@ -23,7 +23,7 @@ public class ActionQueue {
 				e.printStackTrace();
 			}
 		}
-		PlayerAction action = this.queue.remove(0);
+		PlayerMessage action = this.queue.remove(0);
 		notifyAll();
 		return action;
 	}

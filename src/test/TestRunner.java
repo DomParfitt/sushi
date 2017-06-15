@@ -10,23 +10,31 @@ import cards.MakiRoll;
 import cards.Sashimi;
 import cards.Tempura;
 import cards.Wasabi;
+import core.Game;
+import core.Player;
+import server.GameState;
 
 public class TestRunner {
 
 	public static void main(String[] args) {
-		ArrayList<Integer> first = new ArrayList<>();
-		first.add(1);
-		first.add(2);
-		first.add(3);
 		
-		ArrayList<Integer> second = new ArrayList<>();
+		Player p1 = new Player("p1");
+		Player p2 = new Player("p2");
+		Game game = new Game(2);
+		game.addPlayer(p1);
 		
-		second = first;
+		GameState state = new GameState(p1, game);
+		System.out.println("Single player");
+		for (Player player : state.getPlayerDetails()) {
+			System.out.println(player);
+		}
 		
-		first = new ArrayList<>();
-		first.add(4);
-		
-		System.out.println(second);
+		System.out.println("Two players");
+		game.addPlayer(p2);
+		state.update(new GameState(p1, game));
+		for (Player player : state.getPlayerDetails()) {
+			System.out.println(player);
+		}
 		
 //		ArrayList<Card> cards = new ArrayList<>();
 //		cards.add(new Wasabi());

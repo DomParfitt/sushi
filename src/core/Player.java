@@ -8,7 +8,8 @@ import models.PlayerModel;
 
 public class Player extends Observable implements Comparable<Player> {
 
-	private static int NUMBEROFPLAYERS = 0;
+	//TODO: This might not work as intended if there are multiple Games
+	private static int NUMBER_OF_PLAYERS = 0;
 	
 	private int number;
 	private String name;
@@ -29,8 +30,8 @@ public class Player extends Observable implements Comparable<Player> {
 	 */
 	public Player(String name) {
 		//Give the player a unique ID
-		Player.NUMBEROFPLAYERS++;
-		this.number = Player.NUMBEROFPLAYERS;
+		Player.NUMBER_OF_PLAYERS++;
+		this.number = Player.NUMBER_OF_PLAYERS;
 		
 		this.name = name;
 		this.score = new Score();
