@@ -11,6 +11,7 @@ import cards.Card.CARDTYPE;
  * @author Dom Parfitt
  *
  */
+@Deprecated
 public class MakiAI extends RankingAIPlayer {
 
 	public MakiAI(String name) {
