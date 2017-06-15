@@ -8,7 +8,7 @@ import cards.Card;
 import core.Game;
 import core.Player;
 import javafx.application.Platform;
-import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -18,10 +18,13 @@ import javafx.scene.layout.VBox;
  * @author Dom Parfitt
  *
  */
-public class BoardPane extends VBox implements Observer {
+public class BoardPane extends ScrollPane implements Observer {
+	
+	private VBox vBox;
 	
 	public BoardPane() {
-
+		vBox = new VBox();
+		setContent(vBox);
 	}
 
 	@Override
@@ -33,7 +36,7 @@ public class BoardPane extends VBox implements Observer {
 			@Override
 			public void run() {
 //				System.out.println("Updating BoardView");
-				getChildren().clear();
+				vBox.getChildren().clear();
 				Game game = (Game) obs;
 				List<Player> players = game.getPlayers();
 				for (Player player : players) {
@@ -41,7 +44,7 @@ public class BoardPane extends VBox implements Observer {
 					for (Card card : player.getPlayedCards()) {
 						playerPane.addPlayedCard(card);
 					}
-					getChildren().add(playerPane);
+					vBox.getChildren().add(playerPane);
 				}
 			}
 

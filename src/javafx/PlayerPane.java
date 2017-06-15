@@ -23,7 +23,7 @@ public class PlayerPane extends VBox {
 		this.player = player;
 		this.getChildren().add(new Label(player.toString()));
 		cards = new HBox();
-		cards.getStyleClass().add("card-pane");
+//		cards.getStyleClass().add("card-pane");
 		this.getChildren().add(cards);
 	}
 	
@@ -33,7 +33,10 @@ public class PlayerPane extends VBox {
 //		button.getStyleClass().add("card-button");
 //		button.getStyleClass().add(card.getType().toString().toLowerCase());
 		CardButton button = new CardButton(card);
+		button.getStyleClass().clear();
 		button.setDisable(true);
+		button.setPrefHeight(100);
+		button.setPrefWidth(62);
 		cards.getChildren().add(button);
 //		cards.getChildren().add(new Label(card.getName()));
 	}
