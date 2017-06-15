@@ -5,6 +5,7 @@ import java.util.Random;
 
 import cardPools.CardPool;
 import cards.Card;
+import cards.CardType;
 import cards.Chopsticks;
 import cards.Dumpling;
 import cards.MakiRoll;
@@ -37,7 +38,7 @@ public class Deck {
 	 */
 	public Deck(CardPool pool) {
 		this();
-		for (Card.CardType cardType : pool.getPool().keySet()) {
+		for (CardType cardType : pool.getPool().keySet()) {
 			for (int i = 0; i < pool.getPool().get(cardType); i++) {
 				switch (cardType) {
 				case MAKI:

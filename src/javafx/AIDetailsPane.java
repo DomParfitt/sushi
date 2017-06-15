@@ -3,7 +3,7 @@ package javafx;
 import ai.AIPlayer;
 import ai.RandomAIPlayer;
 import ai.SingleCardRankingAIPlayer;
-import cards.Card.CardType;
+import cards.CardType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;

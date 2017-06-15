@@ -2,7 +2,7 @@ package cardPools;
 
 import java.util.Map;
 
-import cards.Card;
+import cards.CardType;
 
 /**
  * Abstract base class for a pool of cards that can
@@ -13,13 +13,13 @@ import cards.Card;
  */
 public abstract class CardPool {
 	
-	protected Map<Card.CardType, Integer> pool;
+	protected Map<CardType, Integer> pool;
 	
 	/**
 	 * Gets the map containing the pool of cards
 	 * @return the pool of cards
 	 */
-	public Map<Card.CardType, Integer> getPool() {
+	public Map<CardType, Integer> getPool() {
 		return this.pool;
 	}
 	

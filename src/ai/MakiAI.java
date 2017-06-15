@@ -3,7 +3,7 @@ package ai;
 import java.util.Comparator;
 
 import cards.Card;
-import cards.Card.CardType;
+import cards.CardType;
 
 /**
  * Concrete implementation of a ranking AI which places the most

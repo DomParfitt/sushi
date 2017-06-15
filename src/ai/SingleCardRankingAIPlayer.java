@@ -3,7 +3,7 @@ package ai;
 import java.util.Comparator;
 
 import cards.Card;
-import cards.Card.CardType;
+import cards.CardType;
 
 /**
  * Implementation of the RankingAIPlayer which can work for any card
