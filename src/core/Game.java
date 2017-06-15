@@ -17,7 +17,10 @@ import cards.Card;
  *
  */
 public class Game extends Observable {
-
+	
+	private static int NUMBER_OF_GAMES = 0;
+	
+	private int gameID;
 	private CardPool cardPool;
 	private ArrayList<Player> players;
 //	private ArrayList<CardRequester> threads;
@@ -32,6 +35,9 @@ public class Game extends Observable {
 	 * Default constructor for the game
 	 */
 	public Game(int maxPlayers) {
+		Game.NUMBER_OF_GAMES++;
+		this.gameID = Game.NUMBER_OF_GAMES;
+		
 		this.cardPool = new StandardCardPool();
 		this.deck = new Deck(cardPool);
 		this.deck.shuffle();
@@ -42,6 +48,10 @@ public class Game extends Observable {
 		this.handSize = 9;
 		this.rounds = 3;
 		this.maxPlayers = maxPlayers;
+	}
+	
+	public int getGameID() {
+		return this.gameID;
 	}
 	
 
