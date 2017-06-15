@@ -1,12 +1,12 @@
 package cards;
 
-import cards.Card.CARDTYPE;
+import cards.Card.CardType;
 
 public class Dumpling extends Card {
 	
 	public Dumpling() {
 		this.name = "Dumpling";
-		this.type = CARDTYPE.DUMPLING;
+		this.type = CardType.DUMPLING;
 	}
 
 }

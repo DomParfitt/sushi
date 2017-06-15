@@ -4,6 +4,6 @@ public class Tempura extends Card {
 
 	public Tempura() {
 		this.name = "Tempura";
-		this.type = CARDTYPE.TEMPURA;
+		this.type = CardType.TEMPURA;
 	}
 }

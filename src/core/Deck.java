@@ -37,7 +37,7 @@ public class Deck {
 	 */
 	public Deck(CardPool pool) {
 		this();
-		for (Card.CARDTYPE cardType : pool.getPool().keySet()) {
+		for (Card.CardType cardType : pool.getPool().keySet()) {
 			for (int i = 0; i < pool.getPool().get(cardType); i++) {
 				switch (cardType) {
 				case MAKI:

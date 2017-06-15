@@ -13,13 +13,13 @@ import cards.Card;
  */
 public abstract class CardPool {
 	
-	protected Map<Card.CARDTYPE, Integer> pool;
+	protected Map<Card.CardType, Integer> pool;
 	
 	/**
 	 * Gets the map containing the pool of cards
 	 * @return the pool of cards
 	 */
-	public Map<Card.CARDTYPE, Integer> getPool() {
+	public Map<Card.CardType, Integer> getPool() {
 		return this.pool;
 	}
 	

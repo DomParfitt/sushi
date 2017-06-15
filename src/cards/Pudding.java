@@ -4,6 +4,6 @@ public class Pudding extends Card {
 	
 	public Pudding() {
 		this.name = "Pudding";
-		this.type = CARDTYPE.PUDDING;
+		this.type = CardType.PUDDING;
 	}
 }

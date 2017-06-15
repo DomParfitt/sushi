@@ -10,14 +10,15 @@ public abstract class Card {
 	/**
 	 * Enum of the different types of cards
 	 */
-	public static enum CARDTYPE {
+	//TODO: Refactor this into separate file, add convenience methods etc.
+	public static enum CardType {
 		NIGIRI, WASABI, SASHIMI, TEMPURA, MAKI, CHOPSTICKS, PUDDING, DUMPLING
 	};
 	
 	protected String name = "";
 	protected String text = "";
 	protected int value;
-	protected CARDTYPE type;
+	protected CardType type;
 	
 	/**
 	 * Gets the card's name
@@ -47,7 +48,7 @@ public abstract class Card {
 	 * Get the card type
 	 * @return the type of the card
 	 */
-	public CARDTYPE getType() {
+	public CardType getType() {
 		return this.type;
 	}
 

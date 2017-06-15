@@ -3,7 +3,7 @@ package ai;
 import java.util.Comparator;
 
 import cards.Card;
-import cards.Card.CARDTYPE;
+import cards.Card.CardType;
 
 /**
  * Implementation of the RankingAIPlayer which can work for any card
@@ -13,14 +13,14 @@ import cards.Card.CARDTYPE;
  */
 public class SingleCardRankingAIPlayer extends RankingAIPlayer {
 
-	private CARDTYPE cardType;
+	private CardType cardType;
 	
 	/**
 	 * Initialise with a name and a card type to favour
 	 * @param name the name of the AI
 	 * @param cardType the card type that the AI favours
 	 */
-	public SingleCardRankingAIPlayer(String name, CARDTYPE cardType) {
+	public SingleCardRankingAIPlayer(String name, CardType cardType) {
 		super(name);
 		this.cardType = cardType;
 		setComparator(new Comparator<Card>() {
@@ -48,7 +48,7 @@ public class SingleCardRankingAIPlayer extends RankingAIPlayer {
 	 * Gets the card type that the AI favours
 	 * @return the card type
 	 */
-	public CARDTYPE getCardType() {
+	public CardType getCardType() {
 		return this.cardType;
 	}
 

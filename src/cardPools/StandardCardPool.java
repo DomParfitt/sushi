@@ -16,10 +16,10 @@ public class StandardCardPool extends CardPool {
 	 * Initialises the standard card pool
 	 */
 	public StandardCardPool() {
-		this.pool = new TreeMap<Card.CARDTYPE, Integer>();
+		this.pool = new TreeMap<Card.CardType, Integer>();
 		
 		//TODO: Check the actual numbers
-		for (Card.CARDTYPE type : Card.CARDTYPE.values()) {
+		for (Card.CardType type : Card.CardType.values()) {
 			this.pool.put(type, 10);
 		}
 	}

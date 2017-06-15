@@ -18,7 +18,7 @@ public class Nigiri extends NumericalCard {
 //			throw new IllegalArgumentException("Nigiri must have a value of 1, 2 or 3");
 		}
 		
-		this.type = CARDTYPE.NIGIRI;
+		this.type = CardType.NIGIRI;
 	}
 
 }

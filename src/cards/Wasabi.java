@@ -4,7 +4,7 @@ public class Wasabi extends Card {
 	
 	public Wasabi() {
 		this.name = "Wasabi";
-		this.type = CARDTYPE.WASABI;
+		this.type = CardType.WASABI;
 	}
 
 }

@@ -1,8 +1,9 @@
 package javafx;
 
 import ai.AIPlayer;
-import ai.MakiAI;
 import ai.RandomAIPlayer;
+import ai.SingleCardRankingAIPlayer;
+import cards.Card.CardType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -18,8 +19,10 @@ public class AIDetailsPane extends HBox {
 	
 	public AIDetailsPane(AISetupPane root, String name) {
 		this.name = name;
-		ObservableList<String> options = FXCollections.observableArrayList("Random", "Maki");
-		
+		ObservableList<String> options = FXCollections.observableArrayList("Random");
+		for(CardType type : CardType.values()) {
+			options.add(type.toString());
+		}
 		this.typeBox = new ComboBox<>(options);
 		typeBox.getSelectionModel().selectFirst();
 		
@@ -43,9 +46,14 @@ public class AIDetailsPane extends HBox {
 		switch (typeBox.getValue()) {
 		case "Random":
 			return new RandomAIPlayer(name);
-		case "Maki":
-			return new MakiAI(name);
+//		case "Maki":
+//			return new MakiAI(name);
 		default:
+			for(CardType type : CardType.values()) {
+				if(type.toString().equals(typeBox.getValue())) {
+					return new SingleCardRankingAIPlayer(name, type);
+				}
+			}
 			return new RandomAIPlayer(name);
 		}
 	}

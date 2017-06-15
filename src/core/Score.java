@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import cards.Card;
 
-//TODO: Implement various scoring methods to work for collection of Players
+//TODO: Change ArrayList instances in method heads to generic List
 
 /**
  * Class for holding various elements which contribute to a player's final score
@@ -92,7 +92,6 @@ public class Score {
 		int dumplingCount = 0;
 		boolean wasabiFlag = false;
 
-		//TODO: ADD DUMPLINGS
 		// Handle each individual card
 		for (Card card : cards) {
 			switch (card.getType()) {
@@ -144,7 +143,6 @@ public class Score {
 		return new Score(score, puddingCount, makiScore);
 	}
 
-	// TODO: Test this thoroughly
 	/**
 	 * Assigns the bonuses to the players with the most and second most maki
 	 * rolls
