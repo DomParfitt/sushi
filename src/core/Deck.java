@@ -158,5 +158,9 @@ public class Deck {
 	public void insertTop(Card card) {
 		getCards().add(0, card);
 	}
+	
+	public void clear() {
+		this.cards = new ArrayList<>();
+	}
 
 }

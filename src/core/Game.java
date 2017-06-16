@@ -234,8 +234,8 @@ public class Game extends Observable {
 		
 		// If the deck is empty switch with the discard pile and clear it
 		if (this.deck.getDeckSize() <= 0) {
-			this.deck = this.discard;
-			this.discard.getCards().clear();
+			this.deck = this.discard; //TODO: This doesn't work (copies reference rather than making a copy)
+			this.discard = new Deck();
 		}
 
 		return this.deck.deal();
@@ -434,6 +434,8 @@ public class Game extends Observable {
 		Score.addPuddings(players);
 
 		Score.showScores(players);
+		setChanged();
+		notifyObservers();
 
 		
 	}
