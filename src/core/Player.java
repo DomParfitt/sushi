@@ -114,6 +114,15 @@ public class Player extends Observable implements Comparable<Player> {
 	}
 	
 	/**
+	 * Resets the player's score
+	 */
+	public void resetScore() {
+		this.score = new Score();
+		setChanged();
+		notifyObservers();
+	}
+	
+	/**
 	 * Get the player's current hand
 	 * @return the player's hand
 	 */

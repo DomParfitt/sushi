@@ -1,6 +1,7 @@
 package javafx;
 
 import core.Player;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 /**
@@ -29,6 +30,9 @@ public class GameView extends VBox {
 		getChildren().add(boardPane);
 		getChildren().add(handPane);
 //		getChildren().add(scorePane);
+		Button newGameButton = new Button("New Game");
+		newGameButton.setOnAction(event -> app.getGame().newGame());
+		getChildren().add(newGameButton);
 		
 		//Add styling
 		getStyleClass().add("view");

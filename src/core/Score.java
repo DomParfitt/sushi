@@ -258,11 +258,11 @@ public class Score {
 				
 			}
 			
-			int lowPoints = -1 * (6 / lowIndices.size());
+			int lowPoints = -1 * (6 / lowIndices.size()); //TODO: Exception thrown here by divide by zero
 			for(Integer index : lowIndices) {
 				
 				players.get(index).updateScore(new Score(lowPoints, 0, 0));
-				System.out.println(players.get(index) + " scored -" + lowPoints + " for least Puddings with " + lowCount);
+				System.out.println(players.get(index) + " scored " + lowPoints + " for least Puddings with " + lowCount);
 			}
 
 		}

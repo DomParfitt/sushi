@@ -31,6 +31,7 @@ public class Game extends Observable {
 	private int handSize;
 	private int rounds;
 	private int maxPlayers;
+	private GameThread gameThread;
 
 	/**
 	 * Default constructor for the game
@@ -394,8 +395,8 @@ public class Game extends Observable {
 	 * actual starting and running of the game
 	 */
 	public synchronized void start() {
-		GameThread thread = new GameThread(this);
-		thread.start();
+		gameThread = new GameThread(this);
+		gameThread.start();
 	}
 
 	/**
@@ -461,8 +462,29 @@ public class Game extends Observable {
 
 	}
 	
+	/**
+	 * Resets each player's score
+	 */
+	public void resetScores() {
+		for(Player player : players) {
+			player.resetScore();
+		}
+	}
+	
+	/**
+	 * Starts a new game at the end of an existing one
+	 */
 	public void newGame() {
+		while(gameThread.isAlive()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		discardPlayedCards(players);
+		resetScores();
 		this.deck = new Deck(cardPool);
 		this.deck.shuffle();
 		start();
