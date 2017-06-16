@@ -1,8 +1,9 @@
 package javafx;
 
+import java.util.List;
+
 import cards.Card;
 import core.Player;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,26 +19,41 @@ public class PlayerPane extends VBox {
 	
 	private Player player;
 	private HBox cards;
+	private int handSize;
 	
-	public PlayerPane(Player player) {
+	public PlayerPane(Player player, int handSize) {
 		this.player = player;
+		this.handSize = handSize;
 		this.getChildren().add(new Label(player.toString()));
 		cards = new HBox();
-//		cards.getStyleClass().add("card-pane");
+		cards.setPrefWidth(handSize*60);
+		cards.getStyleClass().add("small-card-pane");
 		this.getChildren().add(cards);
 	}
 	
 	public void addPlayedCard(Card card) {
-//		Button button = new Button(card.getName());
-////		button.getStyleClass().clear();
-//		button.getStyleClass().add("card-button");
-//		button.getStyleClass().add(card.getType().toString().toLowerCase());
 		CardButton button = new CardButton(card);
-		button.getStyleClass().clear();
-		button.setDisable(true);
-		button.setPrefHeight(100);
-		button.setPrefWidth(62);
-		cards.getChildren().add(button);
-//		cards.getChildren().add(new Label(card.getName()));
+		addCardButton(button);
+	}
+	
+	private void addEmptyCardSpace() {
+		CardButton space = new CardButton();
+		addCardButton(space);
+	}
+	
+	private void addCardButton(CardButton cardButton) {
+		cardButton.getStyleClass().add("small-card");
+		cardButton.setDisable(true);
+		cards.getChildren().add(cardButton);
+	}
+	
+	public void addPlayedCards(List<Card> cards) {
+		for(Card card : cards) {
+			addPlayedCard(card);
+		}
+		
+		for(int i = 0; i < handSize - cards.size(); i++) {
+			addEmptyCardSpace();
+		}
 	}
 }
