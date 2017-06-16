@@ -22,13 +22,24 @@ public class PlayerPane extends VBox {
 	private int handSize;
 	
 	public PlayerPane(Player player, int handSize) {
+		//Create elements of the pane
 		this.player = player;
 		this.handSize = handSize;
-		this.getChildren().add(new Label(player.toString()));
-		cards = new HBox();
-		cards.setPrefWidth(handSize*60);
-		cards.getStyleClass().add("small-card-pane");
+		this.cards = new HBox();
+		HBox title = new HBox();
+		
+		//Add the elements to the pane
+		title.getChildren().add(new Label(player.toString()));
+		title.getChildren().add(new Label("\tScore: " + player.getScore().getNumScore()));
+		title.getChildren().add(new Label("\tPuddings: " + player.getScore().getPuddingCount()));
+		
+		this.getChildren().add(title);
+//		this.getChildren().add(new Label(player.toString()));
 		this.getChildren().add(cards);
+		
+		//Set the styling
+		this.getStyleClass().add("player-pane");
+		this.cards.getStyleClass().add("small-card-pane");
 	}
 	
 	public void addPlayedCard(Card card) {

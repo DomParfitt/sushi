@@ -19,13 +19,19 @@ public class GameView extends VBox {
 	private ScorePane scorePane;
 	
 	public GameView(GameApp app, Player player) {
+		//Create elements
 		this.app = app;
 		boardPane = new BoardPane(app);
 		handPane = new HandPane(player);
 		scorePane = new ScorePane();
+		
+		//Add elements
 		getChildren().add(boardPane);
 		getChildren().add(handPane);
 //		getChildren().add(scorePane);
+		
+		//Add styling
+		getStyleClass().add("view");
 	}
 	
 	public BoardPane getBoardPane() {

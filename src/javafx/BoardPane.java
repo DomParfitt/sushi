@@ -29,7 +29,7 @@ public class BoardPane extends ScrollPane implements Observer {
 		this.app = app;
 		vBox = new VBox();
 		gridPane = new GridPane();
-		gridPane.setHgap(30);
+//		gridPane.setHgap(30);
 		setContent(gridPane);
 //		setContent(vBox);
 	}
@@ -53,7 +53,7 @@ public class BoardPane extends ScrollPane implements Observer {
 					PlayerPane playerPane = new PlayerPane(player, app.getGame().getHandSize());
 					playerPane.addPlayedCards(player.getPlayedCards());
 //					vBox.getChildren().add(playerPane);
-					gridPane.add(playerPane, playerCount / 3, playerCount % 3);
+					gridPane.add(playerPane, playerCount % 2, playerCount / 2);
 					playerCount++;
 				}
 			}
