@@ -422,6 +422,12 @@ public class Game extends Observable {
 
 			Score.showScores(players);
 			
+			try {
+				wait(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			discardPlayedCards(players);
 		}
 		
