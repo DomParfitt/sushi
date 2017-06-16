@@ -9,10 +9,10 @@ public class Nigiri extends NumericalCard {
 			this.name = "Egg Nigiri";
 			break;
 		case 2:
-			this.name = "Squid Nigiri";
+			this.name = "Salmon Nigiri";
 			break;
 		case 3:
-			this.name = "Salmon Nigiri";
+			this.name = "Squid Nigiri";
 			break;
 //		default:
 //			throw new IllegalArgumentException("Nigiri must have a value of 1, 2 or 3");
