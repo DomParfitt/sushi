@@ -240,12 +240,22 @@ public class Score {
 			} else if(puddingCount == highCount) {
 				highIndices.add(i);
 			} else if (puddingCount < lowCount) {
+				System.out.println("Low pudding count is: " + lowCount);
+				System.out.println("Pudding count for this player is: " + puddingCount);
 				lowCount = puddingCount;
 				lowIndices = new ArrayList<>();
 				lowIndices.add(i);
+				System.out.println("Added player at index " + i + " to the low indices array");
+				for(Integer idx : lowIndices) {
+					System.out.println("Indices in array: " + idx);
+				}
 				lowIndex = i;
 			} else if (puddingCount == lowCount) {
 				lowIndices.add(i);
+				System.out.println("Added player at index " + i + " to the low indices array");
+				for(Integer idx : lowIndices) {
+					System.out.println("Indices in array: " + idx);
+				}
 			}
 		}
 
