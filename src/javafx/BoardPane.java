@@ -9,6 +9,7 @@ import core.Game;
 import core.Player;
 import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -21,10 +22,16 @@ import javafx.scene.layout.VBox;
 public class BoardPane extends ScrollPane implements Observer {
 	
 	private VBox vBox;
+	private GridPane gridPane;
+	private GameApp app;
 	
-	public BoardPane() {
+	public BoardPane(GameApp app) {
+		this.app = app;
 		vBox = new VBox();
-		setContent(vBox);
+		gridPane = new GridPane();
+		gridPane.setHgap(30);
+		setContent(gridPane);
+//		setContent(vBox);
 	}
 
 	@Override
@@ -36,15 +43,18 @@ public class BoardPane extends ScrollPane implements Observer {
 			@Override
 			public void run() {
 //				System.out.println("Updating BoardView");
-				vBox.getChildren().clear();
+//				vBox.getChildren().clear();
+				gridPane.getChildren().clear();
+				
 				Game game = (Game) obs;
 				List<Player> players = game.getPlayers();
+				int playerCount = 0;
 				for (Player player : players) {
-					PlayerPane playerPane = new PlayerPane(player);
-					for (Card card : player.getPlayedCards()) {
-						playerPane.addPlayedCard(card);
-					}
-					vBox.getChildren().add(playerPane);
+					PlayerPane playerPane = new PlayerPane(player, app.getGame().getHandSize());
+					playerPane.addPlayedCards(player.getPlayedCards());
+//					vBox.getChildren().add(playerPane);
+					gridPane.add(playerPane, playerCount / 3, playerCount % 3);
+					playerCount++;
 				}
 			}
 
