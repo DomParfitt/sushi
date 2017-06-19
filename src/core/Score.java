@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cards.Card;
 
@@ -83,7 +84,7 @@ public class Score {
 	 *            the list of cards
 	 * @return a Score object
 	 */
-	public static Score getScore(ArrayList<Card> cards) {
+	public static Score getScore(List<Card> cards) {
 		int score = 0;
 		int makiScore = 0;
 		int tempuraCount = 0;
