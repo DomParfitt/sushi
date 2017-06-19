@@ -3,38 +3,68 @@ package test;
 import java.util.ArrayList;
 import java.util.List;
 
+import ai.CardForest;
 import ai.CardTree;
+import ai.CardTreePath;
 import cards.Card;
-import cards.Chopsticks;
+import cards.Dumpling;
 import cards.MakiRoll;
+import cards.Nigiri;
+import cards.Pudding;
 import cards.Sashimi;
 import cards.Tempura;
 import cards.Wasabi;
-import core.Game;
-import core.Player;
-import server.GameState;
 
 public class TestRunner {
 
 	public static void main(String[] args) {
 		
-		Player p1 = new Player("p1");
-		Player p2 = new Player("p2");
-		Game game = new Game(2);
-		game.addPlayer(p1);
+		List<Card> cards = new ArrayList<>();
+//		cards.add(new MakiRoll(1));
+//		cards.add(new MakiRoll(2));
+//		cards.add(new MakiRoll(3));
+		cards.add(new Nigiri(1));
+		cards.add(new Nigiri(2));
+		cards.add(new Nigiri(3));
 		
-		GameState state = new GameState(p1, game);
-		System.out.println("Single player");
-		for (Player player : state.getPlayerDetails()) {
-			System.out.println(player);
-		}
+		List<Card> cards2 = new ArrayList<>();
+		cards2.add(new Nigiri(1));
+		cards2.add(new Nigiri(1));
+		cards2.add(new Nigiri(1));
+
+		List<Card> cards3 = new ArrayList<>();
+		cards3.add(new MakiRoll(2));
+		cards3.add(new Pudding());
+		cards3.add(new Tempura());
 		
-		System.out.println("Two players");
-		game.addPlayer(p2);
-		state.update(new GameState(p1, game));
-		for (Player player : state.getPlayerDetails()) {
-			System.out.println(player);
-		}
+		
+		CardTree tree = new CardTree(new Pudding());
+		tree.print();
+		
+//		tree.print();
+		tree.addLevel(cards);
+		tree.addLevel(cards2);
+		tree.addLevel(cards3);
+		tree.print();
+		
+		CardTree tree2 = new CardTree(new Sashimi());
+		tree2.addLevel(cards);
+		tree2.addLevel(cards2);
+		tree2.addLevel(cards3);
+
+		CardTree tree3 = new CardTree(new Nigiri(3));
+		tree3.addLevel(cards);
+		tree3.addLevel(cards2);
+		tree3.addLevel(cards3);
+		
+		CardForest forest = new CardForest();
+		forest.addTree(tree);
+		forest.addTree(tree2);
+		forest.addTree(tree3);
+		
+		CardTreePath path = forest.getOptimalPath();
+		System.out.println("Estimated best score is: " + path.getEstimatedScore());
+		System.out.println("Best path is: " + path.getBestPath());
 		
 //		ArrayList<Card> cards = new ArrayList<>();
 //		cards.add(new Wasabi());
@@ -48,7 +78,7 @@ public class TestRunner {
 ////		List<Card> newCards = new ArrayList<>();
 ////		newCards.add(new Sashimi());
 ////		newCards.add(new Tempura());
-////		newCards.add(new Chopsticks());
+////		newCards.add(new Chops)ticks());
 ////		
 ////		
 ////		
