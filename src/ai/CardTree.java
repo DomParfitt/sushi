@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cards.Card;
+import core.Score;
 
 /**
  * Class to create a tree from a list of cards. To be used for AI determining
@@ -105,19 +106,24 @@ public class CardTree {
 	}
 
 	/**
-	 * Create a CardTree from a list where the first card in 
-	 * the list represents the root
-	 * @param cards a list of cards
-	 * @param depth the depth to build to
+	 * Create a CardTree from a list where the first card in the list represents
+	 * the root
+	 * 
+	 * @param cards
+	 *            a list of cards
+	 * @param depth
+	 *            the depth to build to
 	 */
 	public CardTree(List<Card> cards, int depth) {
 		this(cards.remove(0), cards, depth);
 	}
 
 	/**
-	 * Create a CardTree from a list where the first card in 
-	 * the list represents the root
-	 * @param cards a list of cards
+	 * Create a CardTree from a list where the first card in the list represents
+	 * the root
+	 * 
+	 * @param cards
+	 *            a list of cards
 	 */
 	public CardTree(List<Card> cards) {
 		this(cards, cards.size());
@@ -129,9 +135,34 @@ public class CardTree {
 	 * @param rootCard
 	 *            the card in the leaf
 	 */
+	// TODO: I think this should be the primary constructor
 	public CardTree(Card rootCard) {
 		this.root = rootCard;
 		this.branches = new ArrayList<CardTree>();
+	}
+
+	/**
+	 * Adds a single level of branches to the tree
+	 * 
+	 * @param cards
+	 *            a list of cards to add to the tree
+	 */
+	public void addLevel(List<Card> cards) {
+		if (this.isLeaf()) {
+			for (Card card : cards) {
+				branches.add(new CardTree(card));
+			}
+		} else {
+			for (CardTree branch : branches) {
+				if (branch.isLeaf()) {
+					for (Card card : cards) {
+						branch.branches.add(new CardTree(card));
+					}
+				} else {
+					branch.addLevel(cards);
+				}
+			}
+		}
 	}
 
 	/**
@@ -152,20 +183,41 @@ public class CardTree {
 
 	/**
 	 * Checks whether the node is a leaf (no children/branches)
+	 * 
 	 * @return whether the node is a leaf or not
 	 */
 	public boolean isLeaf() {
 		return branches.size() == 0;
 	}
 	
-//	public int getNumOutcomes() {
-//		for(CardTree branch : branches) {
-//			if(branch.isLeaf()) {
-//				return 1;
-//			} else {
-//				return branch.getNumOutcomes();
+	/**
+	 * Method to get the depth of the tree
+	 * @return the depth of the tree
+	 */
+	public int getDepth() {
+		//TODO: This is a bit of a hack method as it assumes tree is not unbalanced
+		if(this.isLeaf())  {
+			return 1;
+		} else {
+			return 1 + branches.get(0).getDepth();
+		}
+	}
+	
+//	public int getDepth() {
+//		if(this.isLeaf()) {
+//			return 1;
+//		} else {
+//			int maxDepth = 0;
+//			for(CardTree branch : branches) {
+//				if(branch.getDepth() > maxDepth) {
+//					maxDepth = branch.getDepth();
+//				}
 //			}
 //		}
+//	}
+//	
+//	private int depthHelper(int depth) {
+//		
 //	}
 
 	/**
@@ -175,6 +227,7 @@ public class CardTree {
 	 * @param newBranch
 	 *            the new CardTree to add
 	 */
+	@Deprecated
 	public void addBranch(CardTree newBranch) {
 		for (CardTree branch : branches) {
 			if (branch.isLeaf()) {
@@ -222,26 +275,74 @@ public class CardTree {
 	}
 
 	/**
-	 * Static method for creating a list of CardTrees. Creates one
-	 * tree for each card in the list with that card acting as the
-	 * root and the remaining cards forming the branches
-	 * @param cards a list of cards
+	 * Gets the optimal path of the current tree
+	 * @return the optimal path
+	 */
+	public CardTreePath getOptimalPath() {
+		return optimalPathHelper(new CardTreePath());
+	}
+
+	/**
+	 * Helper function for estimating optimal path, does the bulk
+	 * of the heavy lifting
+	 * @param path 
+	 * @return
+	 */
+	private CardTreePath optimalPathHelper(CardTreePath path) {
+		//Add the root card of the current node to the path we are checking
+		path.addToCurrentPath(root);
+		
+		//If this node is a leaf we can get a score and compare
+		if (this.isLeaf()) {
+			int score = getEstimatedPathScore(path.getCurrentPath()); //Score.getScore(path.getCurrentPath()).getNumScore();
+			if (score > path.getEstimatedScore()) {
+				path.setEstimatedScore(score);
+				path.setBestPath(path.getCurrentPath());
+			}
+		} else {
+			//If this node is not a leaf we need to recurse on each branch
+			for (CardTree branch : branches) {
+				path = branch.optimalPathHelper(path);
+			}
+		}
+		
+		//Going up a node level so we can remove the current node from the path
+		path.removeFromCurrentPath();
+		return path;
+	}
+	
+	private int getEstimatedPathScore(List<Card> path) {
+		Score score = Score.getScore(path);
+		int numScore = score.getNumScore();
+		numScore += score.getMakiScore() / 4;
+		numScore += score.getPuddingCount() / 4;
+		return numScore;
+	}
+
+	/**
+	 * Static method for creating a list of CardTrees. Creates one tree for each
+	 * card in the list with that card acting as the root and the remaining
+	 * cards forming the branches
+	 * 
+	 * @param cards
+	 *            a list of cards
 	 * @return a list of CardTrees
 	 */
+	@Deprecated
 	public static List<CardTree> getTreeList(List<Card> cards) {
 		List<CardTree> trees = new ArrayList<>();
-		
-		//Get each root
+
+		// Get each root
 		for (Card root : cards) {
-			
-			//Create a list to hold the remaining cards
+
+			// Create a list to hold the remaining cards
 			List<Card> others = new ArrayList<>();
 			for (Card card : cards) {
-				if(!card.equals(root)) {
+				if (!card.equals(root)) {
 					others.add(card);
 				}
 			}
-			
+
 			// Create the tree
 			CardTree tree = new CardTree(root, others);
 			trees.add(tree);

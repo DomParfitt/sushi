@@ -24,6 +24,7 @@ public class TrackingAIPlayer extends AIPlayer {
 	protected List<Score> scores;
 	protected boolean gameStarted;
 	protected int handTracker;
+	protected CardForest forest;
 	
 	/**
 	 * Initialises the AI with a name and the game it belongs to
@@ -38,6 +39,7 @@ public class TrackingAIPlayer extends AIPlayer {
 		this.scores = new ArrayList<Score>();
 		this.gameStarted = false;
 		this.handTracker = 0;
+		this.forest = new CardForest();
 	}
 
 	@Override
@@ -50,41 +52,48 @@ public class TrackingAIPlayer extends AIPlayer {
 		 */
 		if(!gameStarted) {
 			gameStarted = true;
-			for (Player player: game.getPlayers()) {
-				scores.add(player.getScore());
+			
+			for(Card card : getHand()) {
+				CardTree tree = new CardTree(card);
+				forest.addTree(tree);
 			}
-			scores.sort(new Comparator<Score>() {
-
-				@Override
-				public int compare(Score s1, Score s2) {
-					Integer s1Num = s1.getNumScore();
-					Integer s1Maki = s1.getMakiScore();
-					Integer s1Pud = s1.getPuddingCount();
-					Integer s2Num = s2.getNumScore();
-					Integer s2Maki = s2.getMakiScore();
-					Integer s2Pud = s2.getPuddingCount();
-					
-					/*
-					 * Forecast maki and pudding points assuming full spread,
-					 * i.e. card with highest will get the best bonus and 
-					 * other card will get worst forfeit
-					 */
-					if (s1Maki > s2Maki) {
-						s1Num += 6; //3?
-					} else if (s2Maki > s1Maki) {
-						s2Num += 6;
-					} 
-					
-					if (s1Pud > s2Pud) {
-						s1Num += 12;
-					} else if (s2Pud > s1Pud) {
-						s2Num += 12;
-					}
-					
-					return s1Num.compareTo(s2Num);
-				}
-			});
+//			for (Player player: game.getPlayers()) {
+//				scores.add(player.getScore());
+//			}
+//			scores.sort(new Comparator<Score>() {
+//
+//				@Override
+//				public int compare(Score s1, Score s2) {
+//					Integer s1Num = s1.getNumScore();
+//					Integer s1Maki = s1.getMakiScore();
+//					Integer s1Pud = s1.getPuddingCount();
+//					Integer s2Num = s2.getNumScore();
+//					Integer s2Maki = s2.getMakiScore();
+//					Integer s2Pud = s2.getPuddingCount();
+//					
+//					/*
+//					 * Forecast maki and pudding points assuming full spread,
+//					 * i.e. card with highest will get the best bonus and 
+//					 * other card will get worst forfeit
+//					 */
+//					if (s1Maki > s2Maki) {
+//						s1Num += 6; //3?
+//					} else if (s2Maki > s1Maki) {
+//						s2Num += 6;
+//					} 
+//					
+//					if (s1Pud > s2Pud) {
+//						s1Num += 12;
+//					} else if (s2Pud > s1Pud) {
+//						s2Num += 12;
+//					}
+//					
+//					return s1Num.compareTo(s2Num);
+//				}
+//			});
 		}
+		
+		forest.addLevel(getHand());
 		
 		allHands.add(handTracker, getHand());
 		
